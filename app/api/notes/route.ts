@@ -3,6 +3,8 @@ import { getServerSession } from 'next-auth';
 import connectDB from '@/lib/mongodb';
 import Note from '@/lib/models/Note';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET() {
   await connectDB();
   const notes = await Note.find().sort({ pinned: -1, createdAt: -1 }).limit(50);

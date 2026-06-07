@@ -9,11 +9,13 @@ import Mood from '@/lib/models/Mood';
 import Reflection from '@/lib/models/Reflection';
 import PickNumber from '@/lib/models/PickNumber';
 
+export const dynamic = 'force-dynamic';
+
 async function requireAdmin(session: any) {
   return session?.user?.role === 'admin';
 }
 
-export async function GET(req: NextRequest) {
+export async function GET() {
   const session = await getServerSession();
   if (!await requireAdmin(session)) return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
 

@@ -1,12 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
-import { format, startOfWeek, endOfWeek } from 'date-fns';
+import { getISOWeek, getISOWeekYear, startOfWeek, endOfWeek, format } from 'date-fns';
 import connectDB from '@/lib/mongodb';
 import Reflection from '@/lib/models/Reflection';
 
+export const dynamic = 'force-dynamic';
+
 function getWeekKey(date: Date) {
-  const start = startOfWeek(date, { weekStartsOn: 1 });
-  return format(start, 'yyyy-WW');
+  const week = getISOWeek(date);
+  const year = getISOWeekYear(date);
+  return `${year}-W${String(week).padStart(2, '0')}`;
 }
 
 function getWeekLabel(date: Date) {
@@ -28,8 +31,9 @@ export async function POST(req: NextRequest) {
   if (!session?.user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
   const body = await req.json();
-  const week = getWeekKey(new Date());
-  const weekLabel = getWeekLabel(new Date());
+  const now = new Date();
+  const week = getWeekKey(now);
+  const weekLabel = getWeekLabel(now);
 
   await connectDB();
   const reflection = await Reflection.findOneAndUpdate(
@@ -39,4 +43,3 @@ export async function POST(req: NextRequest) {
   );
   return NextResponse.json(reflection);
 }
-

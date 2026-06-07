@@ -1,7 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
-import { format, startOfWeek, endOfWeek } from 'date-fns';
+import { format, startOfWeek, endOfWeek, getISOWeek, getISOWeekYear } from 'date-fns';
 import toast from 'react-hot-toast';
 
 const FIELDS = [
@@ -24,7 +24,10 @@ export default function ReflectionsPage() {
   const [activeTab, setActiveTab] = useState<'write' | 'read'>('write');
   const username = (session?.user as any)?.username;
 
-  const thisWeek = format(startOfWeek(new Date(), { weekStartsOn: 1 }), 'yyyy-WW');
+  const thisWeek = (() => {
+    const now = new Date();
+    return `${getISOWeekYear(now)}-W${String(getISOWeek(now)).padStart(2, '0')}`;
+  })();
 
   useEffect(() => {
     fetch('/api/reflections/weeks').then(r => r.json()).then(data => {
@@ -46,8 +49,9 @@ export default function ReflectionsPage() {
   }, [selectedWeek, username]);
 
   function getCurrentWeekLabel() {
-    const start = startOfWeek(new Date(), { weekStartsOn: 1 });
-    const end = endOfWeek(new Date(), { weekStartsOn: 1 });
+    const now = new Date();
+    const start = startOfWeek(now, { weekStartsOn: 1 });
+    const end = endOfWeek(now, { weekStartsOn: 1 });
     return `${format(start, 'MMM d')} – ${format(end, 'MMM d, yyyy')}`;
   }
 

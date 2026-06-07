@@ -4,6 +4,8 @@ import { format } from 'date-fns';
 import connectDB from '@/lib/mongodb';
 import Mood from '@/lib/models/Mood';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET() {
   await connectDB();
   const moods = await Mood.find().sort({ date: -1 }).limit(60);

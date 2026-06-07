@@ -3,6 +3,8 @@ import bcrypt from 'bcryptjs';
 import connectDB from '@/lib/mongodb';
 import User from '@/lib/models/User';
 
+export const dynamic = 'force-dynamic';
+
 const ALLOWED = ['efo', 'daavi'];
 
 export async function POST(req: NextRequest) {
@@ -24,7 +26,12 @@ export async function POST(req: NextRequest) {
     }
 
     const hash = await bcrypt.hash(password, 12);
-    await User.create({ username: u, displayName: displayName || (u.charAt(0).toUpperCase() + u.slice(1)), password: hash, role: u });
+    await User.create({
+      username: u,
+      displayName: displayName || (u.charAt(0).toUpperCase() + u.slice(1)),
+      password: hash,
+      role: u,
+    });
 
     return NextResponse.json({ ok: true });
   } catch (e: any) {

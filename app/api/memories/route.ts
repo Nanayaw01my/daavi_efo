@@ -3,6 +3,8 @@ import { getServerSession } from 'next-auth';
 import connectDB from '@/lib/mongodb';
 import Memory from '@/lib/models/Memory';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET() {
   await connectDB();
   const memories = await Memory.find().sort({ date: -1 }).limit(50);

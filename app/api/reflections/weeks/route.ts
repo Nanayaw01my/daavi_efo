@@ -2,6 +2,8 @@ import { NextResponse } from 'next/server';
 import connectDB from '@/lib/mongodb';
 import Reflection from '@/lib/models/Reflection';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET() {
   await connectDB();
   const weeks = await Reflection.aggregate([

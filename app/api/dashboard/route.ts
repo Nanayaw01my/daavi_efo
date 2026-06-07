@@ -7,6 +7,8 @@ import Mood from '@/lib/models/Mood';
 import Reflection from '@/lib/models/Reflection';
 import PickNumber from '@/lib/models/PickNumber';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET() {
   await connectDB();
   const today = format(new Date(), 'yyyy-MM-dd');
@@ -20,12 +22,5 @@ export async function GET() {
     Reflection.countDocuments(),
   ]);
 
-  return NextResponse.json({
-    noteCount,
-    memoryCount,
-    moodToday,
-    recentMemory,
-    answeredGames,
-    reflectionCount,
-  });
+  return NextResponse.json({ noteCount, memoryCount, moodToday, recentMemory, answeredGames, reflectionCount });
 }

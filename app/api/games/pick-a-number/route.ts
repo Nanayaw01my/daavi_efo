@@ -3,6 +3,8 @@ import { getServerSession } from 'next-auth';
 import connectDB from '@/lib/mongodb';
 import PickNumber from '@/lib/models/PickNumber';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET() {
   await connectDB();
   const questions = await PickNumber.find().sort({ number: 1 });

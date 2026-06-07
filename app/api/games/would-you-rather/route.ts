@@ -4,6 +4,8 @@ import connectDB from '@/lib/mongodb';
 import WYR from '@/lib/models/WouldYouRather';
 import { WOULD_YOU_RATHER } from '@/lib/questions';
 
+export const dynamic = 'force-dynamic';
+
 async function ensureQuestions() {
   const count = await WYR.countDocuments();
   if (count === 0) {
