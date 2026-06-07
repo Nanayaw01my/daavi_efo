@@ -1,3 +1,4 @@
+// ─── Pick A Number ───────────────────────────────────────────────────────────
 export const PICK_NUMBER_QUESTIONS = [
   { number: 1, category: 'Romantic', question: 'What is your favorite memory of us?' },
   { number: 2, category: 'Romantic', question: 'When did you first realize you were falling for me?' },
@@ -51,6 +52,7 @@ export const PICK_NUMBER_QUESTIONS = [
   { number: 50, category: 'Growth', question: 'What does your ideal conflict resolution look like?' },
 ];
 
+// ─── Truth or Dare ───────────────────────────────────────────────────────────
 export const TRUTH_PROMPTS = [
   'What is the most embarrassing thing you have done in front of me?',
   'What do you secretly wish I would do more often?',
@@ -67,6 +69,11 @@ export const TRUTH_PROMPTS = [
   'What is something you want to try together but have been scared to say?',
   'What makes you feel most loved by me?',
   'What was the happiest day of your life so far?',
+  'What do you think our biggest strength as a couple is?',
+  'What is a fear you have never told anyone?',
+  'How would you describe me to a stranger?',
+  'What is one thing you always want to remember about right now?',
+  'What is something I do that makes you fall for me every time?',
 ];
 
 export const DARE_PROMPTS = [
@@ -75,18 +82,24 @@ export const DARE_PROMPTS = [
   'Tell me three things you absolutely love about me.',
   'Send a voice note saying how much I mean to you.',
   'Re-enact how you would have asked me out if you had done it differently.',
-  'Dance to the next song that comes on and send me a video.',
+  'Dance to the next song that comes on and record it.',
   'Write a heartfelt text to me as if we were meeting for the first time.',
-  'Plan our next date night right now.',
-  'Rate me out of 10 in five different categories — and explain each.',
+  'Plan our next date night right now — full details.',
+  'Rate me out of 10 in five different categories and explain each.',
   'Tell me your favorite memory of us in full detail.',
-  'Say something in a different language that describes how you feel about me.',
+  'Say something sweet in a different language.',
   'Give me a list of 5 things that make you proud of our relationship.',
   'Describe our future in exactly 10 sentences.',
   'Tell me what you would do if you could give me any gift in the world.',
   'Record a 30-second voice note telling me why you chose me.',
+  'Draw a portrait of me right now — no taking it back.',
+  'Write 10 things you love about me without stopping.',
+  'Serenade me with any song for 30 seconds.',
+  'Do your best impression of me.',
+  'Tell me the most beautiful thing you have ever thought about me.',
 ];
 
+// ─── Would You Rather ────────────────────────────────────────────────────────
 export const WOULD_YOU_RATHER = [
   { id: 1, a: 'Have a quiet romantic dinner at home', b: 'Go on a surprise adventure date' },
   { id: 2, a: 'Know everything about the future', b: 'Be able to relive any past moment' },
@@ -94,17 +107,23 @@ export const WOULD_YOU_RATHER = [
   { id: 4, a: 'Travel the world together for a year', b: 'Build our dream home together now' },
   { id: 5, a: 'Have a big beautiful wedding', b: 'Elope and spend the money on travel' },
   { id: 6, a: 'Grow old together in the same town', b: 'Live in a new city every 5 years' },
-  { id: 7, a: 'Be each other\'s first love', b: 'Know we will always be each other\'s last' },
+  { id: 7, a: "Be each other's first love", b: "Know we will always be each other's last" },
   { id: 8, a: 'Have a huge group of couple friends', b: 'Keep our relationship deeply private' },
   { id: 9, a: 'Never fight but also never fully resolve things', b: 'Fight openly but always make up stronger' },
   { id: 10, a: 'Live closer to your family', b: 'Live closer to my family' },
-  { id: 11, a: 'Communicate only through love letters for a week', b: 'Spend an entire weekend in complete silence' },
+  { id: 11, a: 'Communicate only through love letters for a week', b: 'Spend an entire weekend in complete silence together' },
   { id: 12, a: 'Know exactly what the other is thinking', b: 'Always feel exactly what the other is feeling' },
   { id: 13, a: 'Have our love story made into a movie', b: 'Have our love story written into a bestselling book' },
   { id: 14, a: 'Never have money problems again', b: 'Never have any more health problems again' },
   { id: 15, a: 'Take a spontaneous trip every month', b: 'Take one epic trip every year together' },
+  { id: 16, a: 'Be able to pause time during our best moments', b: 'Be able to rewind and relive our best moments' },
+  { id: 17, a: 'Have a personal chef cook our meals together', b: 'Have a personal driver take us everywhere' },
+  { id: 18, a: 'Always know when the other is upset', b: 'Always know exactly what would cheer the other up' },
+  { id: 19, a: 'Spend every anniversary doing something new', b: 'Spend every anniversary recreating the first date' },
+  { id: 20, a: 'Age together but stay sharp mentally', b: 'Stay young-looking but lose some memories over time' },
 ];
 
+// ─── This or That ────────────────────────────────────────────────────────────
 export const THIS_OR_THAT = [
   { id: 1, a: 'Coffee ☕', b: 'Tea 🍵' },
   { id: 2, a: 'Beach 🏖️', b: 'Mountains 🏔️' },
@@ -118,7 +137,313 @@ export const THIS_OR_THAT = [
   { id: 10, a: 'Spontaneous plans', b: 'Carefully planned dates' },
   { id: 11, a: 'Action movies 🎬', b: 'Romance movies 💕' },
   { id: 12, a: 'Cooking together 👨‍🍳', b: 'Ordering in 📱' },
-  { id: 13, a: 'Summer 🌞', b: 'Winter ❄️' },
+  { id: 13, a: 'Summer ☀️', b: 'Winter ❄️' },
   { id: 14, a: 'Dogs 🐕', b: 'Cats 🐈' },
   { id: 15, a: 'Save money 💰', b: 'Spend on experiences 🌍' },
+  { id: 16, a: 'Sweet desserts 🍰', b: 'Salty snacks 🍿' },
+  { id: 17, a: 'Road trip 🚗', b: 'Fly somewhere ✈️' },
+  { id: 18, a: 'Gym workouts 🏋️', b: 'Outdoor walks 🚶' },
+  { id: 19, a: 'Dancing 💃', b: 'Singing 🎤' },
+  { id: 20, a: 'Early dinner 🌇', b: 'Late night dinner 🌙' },
+];
+
+// ─── Guess Your Partner ───────────────────────────────────────────────────────
+export const GUESS_PARTNER_QUESTIONS = [
+  {
+    id: 1,
+    question: 'Your ideal Saturday morning is:',
+    options: ['Sleeping in as long as possible 😴', 'Up early with coffee and quiet ☕', 'Exercise or a long walk first 🏃', 'Lazy cuddles, no plans 🛋️'],
+  },
+  {
+    id: 2,
+    question: 'If you could pick one superpower:',
+    options: ['Teleportation ✈️', 'Mind reading 🧠', 'Time travel ⏳', 'Invisibility 👻'],
+  },
+  {
+    id: 3,
+    question: 'When stressed, you tend to:',
+    options: ['Talk it out with someone 💬', 'Go quiet and need space 🤫', 'Distract yourself (phone, TV) 📱', 'Exercise or stay active 🏋️'],
+  },
+  {
+    id: 4,
+    question: 'Your comfort food is:',
+    options: ['Something sweet 🍰', 'Something salty 🍟', 'A proper home-cooked meal 🍲', 'Whatever is easiest right now 🍕'],
+  },
+  {
+    id: 5,
+    question: 'Your dream vacation is:',
+    options: ['Beach — sun, sand, relax 🏖️', 'City — culture, food, exploring 🌆', 'Mountains — nature, hiking 🏔️', 'Somewhere completely off the map 🗺️'],
+  },
+  {
+    id: 6,
+    question: 'When picking a movie you usually go for:',
+    options: ['Romance or drama 💕', 'Action or thriller 💥', 'Comedy — always laugh 😂', 'Documentary or true story 📽️'],
+  },
+  {
+    id: 7,
+    question: 'Your biggest strength is:',
+    options: ['Kindness and empathy 💛', 'Determination and drive 💪', 'Sense of humor 😄', 'Loyalty and reliability 🤝'],
+  },
+  {
+    id: 8,
+    question: 'When it comes to gifts, you prefer:',
+    options: ['Something thoughtful and personal 💝', 'Experiences over things 🎭', 'Practical gifts you will actually use 🔧', 'Surprise me — anything goes! 🎁'],
+  },
+  {
+    id: 9,
+    question: 'Your love language is:',
+    options: ['Words of affirmation 💬', 'Quality time together ⏰', 'Physical touch 🤗', 'Acts of service 🙌'],
+  },
+  {
+    id: 10,
+    question: 'In an argument, you tend to:',
+    options: ['Want to resolve it immediately 🔥', 'Need time to cool down first ❄️', 'Apologize quickly even if not sure 🙏', 'Want to fully understand before responding 🤔'],
+  },
+  {
+    id: 11,
+    question: 'Your ideal home would be:',
+    options: ['Cozy and intimate 🏡', 'Modern and minimal ✨', 'Big and lively — always hosting 🎉', 'Anywhere with you is home 💕'],
+  },
+  {
+    id: 12,
+    question: 'On a night out you prefer:',
+    options: ['Small intimate dinner 🕯️', 'A fun group outing 🎉', 'Dancing and music 💃', 'Whatever — be spontaneous 🎲'],
+  },
+  {
+    id: 13,
+    question: 'You recharge by:',
+    options: ['Quiet alone time 🧘', 'Spending time with people you love 👫', 'Being in nature 🌿', 'Working on something creative 🎨'],
+  },
+  {
+    id: 14,
+    question: 'Your communication style is:',
+    options: ['Very direct and clear 📢', 'Thoughtful — I consider my words 🤔', 'Emotional — I feel before I speak ❤️', 'Casual and easy-going 😊'],
+  },
+  {
+    id: 15,
+    question: 'If you won $10,000 tomorrow:',
+    options: ['Travel somewhere amazing ✈️', 'Save or invest most of it 💰', 'Treat everyone I love 🎁', 'Spend it on an experience or adventure 🎢'],
+  },
+  {
+    id: 16,
+    question: 'Your morning routine is best described as:',
+    options: ['Phone first, scroll in bed 📱', 'Shower and out the door quickly 🚿', 'Long peaceful breakfast routine 🥞', 'Half asleep until noon ☁️'],
+  },
+  {
+    id: 17,
+    question: 'When you are sick, you want:',
+    options: ['To be taken care of and fussed over 🤒', 'Space — you handle it alone 🛏️', 'Soup and Netflix 🍜', 'Distraction — keep me entertained 😄'],
+  },
+  {
+    id: 18,
+    question: 'Your social battery is:',
+    options: ['Charged by being around people 🔋', 'Drained quickly — I need alone time ⚡', 'Depends entirely on who I am with 🎭', 'I adapt easily to any situation 🌊'],
+  },
+  {
+    id: 19,
+    question: 'You show love by:',
+    options: ['Saying it directly and often 💬', 'Doing thoughtful things 🛠️', 'Being physically present and affectionate 🤗', 'Planning special moments 🎭'],
+  },
+  {
+    id: 20,
+    question: 'Your biggest relationship priority is:',
+    options: ['Deep trust and honesty 🔐', 'Consistent quality time ⏰', 'Growing together as people 🌱', 'Always feeling deeply loved 💕'],
+  },
+];
+
+// ─── Love Quiz ────────────────────────────────────────────────────────────────
+export const LOVE_QUIZ_QUESTIONS = [
+  {
+    id: 1,
+    question: 'The most important thing in a relationship to me is:',
+    options: ['Trust and honesty above everything', 'Deep emotional connection', 'Consistent quality time together', 'Growing individually while growing together'],
+  },
+  {
+    id: 2,
+    question: 'When we disagree, the best approach is:',
+    options: ['Talk it out calmly right away', 'Take space then come back', 'Write out our feelings first', 'Listen fully before responding'],
+  },
+  {
+    id: 3,
+    question: 'I feel most loved when:',
+    options: ['You tell me how much I mean to you', 'We spend focused time together', 'You do things to make my life easier', 'You hold me and are physically close'],
+  },
+  {
+    id: 4,
+    question: 'For our future, I dream of:',
+    options: ['A peaceful, stable life together', 'Constant adventure and new experiences', 'Building something meaningful together', 'Deep roots — family, community, home'],
+  },
+  {
+    id: 5,
+    question: 'My love style is best described as:',
+    options: ['All-in, intense, deeply committed', 'Steady, reliable, consistent', 'Playful, spontaneous, fun-loving', 'Thoughtful, caring, intentional'],
+  },
+  {
+    id: 6,
+    question: 'I handle jealousy by:',
+    options: ['Communicating openly about it', 'Keeping it to myself and working through it', 'Needing reassurance from my partner', 'Focusing on trusting my partner'],
+  },
+  {
+    id: 7,
+    question: 'The frequency of quality time I need is:',
+    options: ['Every day — I need daily connection', 'A few times a week intentionally', 'Weekly is enough if it is meaningful', 'I value quality over quantity'],
+  },
+  {
+    id: 8,
+    question: 'Personal space in a relationship means:',
+    options: ['Having some things that are just mine', 'Being able to recharge alone when needed', 'Keeping separate friendships and hobbies', 'Trusting without needing to explain everything'],
+  },
+  {
+    id: 9,
+    question: 'When my partner is going through something hard:',
+    options: ['I want to fix it and help solve it', 'I listen without judgment first', 'I give space but make myself available', 'I show up physically and just be there'],
+  },
+  {
+    id: 10,
+    question: 'I believe a great relationship requires:',
+    options: ['Constant effort from both sides', 'Deep friendship as the foundation', 'Shared values and vision', 'Choosing each other again every day'],
+  },
+];
+
+// ─── Memory Challenge ─────────────────────────────────────────────────────────
+export const MEMORY_CHALLENGE_QUESTIONS = [
+  {
+    id: 1,
+    question: 'What does your partner do first thing when they wake up?',
+    options: ['Scrolls through their phone 📱', 'Gets up and goes straight to the bathroom 🚿', 'Lies there half-asleep for a while 😴', 'Talks to you immediately 💬'],
+  },
+  {
+    id: 2,
+    question: "What is your partner's go-to comfort food?",
+    options: ['Something sweet (chocolate, ice cream) 🍫', 'Junk food or fast food 🍟', 'A home-cooked meal 🍲', 'Whatever is in the fridge 🧀'],
+  },
+  {
+    id: 3,
+    question: 'How does your partner react when they are really happy?',
+    options: ['Gets loud and expressive 😄', 'Smiles quietly and glows ✨', 'Wants to celebrate with others 🎉', 'Holds it in but you can see it in their eyes 👀'],
+  },
+  {
+    id: 4,
+    question: 'What is your partner most likely doing at 10pm on a Friday?',
+    options: ['Out or getting ready to go out 🌙', 'On their phone watching something 📱', 'Already asleep or almost there 😴', 'Talking to you or spending quality time 💕'],
+  },
+  {
+    id: 5,
+    question: "What is your partner's biggest pet peeve?",
+    options: ['Lateness or disrespecting time ⏰', 'Messiness or disorganization 🧹', 'Being interrupted mid-sentence 🗣️', 'Dishonesty or half-truths 🤥'],
+  },
+  {
+    id: 6,
+    question: 'What does your partner need after a bad day?',
+    options: ['To vent and be listened to 👂', 'Quiet space and time alone 🧘', 'Distraction and humor 😂', 'Physical comfort and closeness 🤗'],
+  },
+  {
+    id: 7,
+    question: "What does your partner's ideal weekend look like?",
+    options: ['Full of plans and social events 🎉', 'Slow, relaxed, and unscheduled 🛋️', 'A mix of adventure and rest 🌍', 'Productive — getting things done ✅'],
+  },
+  {
+    id: 8,
+    question: 'How does your partner show they are nervous?',
+    options: ['Goes quiet and distant 🤫', 'Talks more than usual 💬', 'Gets fidgety or restless 😬', 'Makes jokes to lighten the mood 😂'],
+  },
+  {
+    id: 9,
+    question: 'What is your partner most passionate about?',
+    options: ['Their career or goals 💼', 'People they love — family and friends 👨‍👩‍👧', 'A personal hobby or interest 🎨', 'Growth, learning, and bettering themselves 📚'],
+  },
+  {
+    id: 10,
+    question: 'How does your partner handle being wrong?',
+    options: ['Admits it quickly and apologizes 🙏', 'Needs a moment but comes around 🔄', 'Struggles to admit it but tries 😅', 'Apologizes through actions not words 🛠️'],
+  },
+  {
+    id: 11,
+    question: 'What song or type of music does your partner always return to?',
+    options: ['Afrobeats or dancehall 🎵', 'R&B and soul 🎶', 'Whatever is trending right now 📻', 'A wide mix — no fixed preference 🎸'],
+  },
+  {
+    id: 12,
+    question: 'When making a big decision, your partner:',
+    options: ['Goes with their gut instantly ⚡', 'Takes time and thinks it through carefully 🤔', 'Talks to people they trust first 💬', 'Writes it out or makes a list 📝'],
+  },
+  {
+    id: 13,
+    question: 'How does your partner prefer to receive an apology?',
+    options: ['Sincere words spoken directly 💬', 'Changed behavior over time 🔄', 'A heartfelt gesture or action 🌹', 'Just move forward — no big deal 🤝'],
+  },
+  {
+    id: 14,
+    question: 'If your partner could describe themselves in one word:',
+    options: ['Loyal 🛡️', 'Passionate 🔥', 'Caring 💛', 'Ambitious 🚀'],
+  },
+  {
+    id: 15,
+    question: 'What would your partner say is the best thing about you?',
+    options: ['Your love and how you make them feel 💕', 'Your humor and the way you make them laugh 😂', 'Your support and how you show up 🙌', 'Your honesty and realness 💎'],
+  },
+];
+
+// ─── Date Night Ideas ─────────────────────────────────────────────────────────
+export const DATE_NIGHT_IDEAS = [
+  // Stay-in
+  { id: 1, category: 'Stay-In', idea: 'Cook a new recipe together from scratch — pick something neither of you has tried before', emoji: '👨‍🍳' },
+  { id: 2, category: 'Stay-In', idea: 'Movie marathon: pick a theme (director, decade, genre) and watch 2-3 back to back', emoji: '🎬' },
+  { id: 3, category: 'Stay-In', idea: 'Build a cozy pillow fort together and spend the evening inside it', emoji: '🏕️' },
+  { id: 4, category: 'Stay-In', idea: 'Do a 1000-piece puzzle together — no rushing, just vibes and music', emoji: '🧩' },
+  { id: 5, category: 'Stay-In', idea: 'Draw portraits of each other with a time limit — then reveal them at the same time', emoji: '🎨' },
+  { id: 6, category: 'Stay-In', idea: 'Board game tournament — winner picks next date night', emoji: '🎲' },
+  { id: 7, category: 'Stay-In', idea: 'Full spa night: face masks, candles, massage, music, and no phones', emoji: '🛁' },
+  { id: 8, category: 'Stay-In', idea: 'Bake something indulgent together — brownies, a cake, or fancy cookies', emoji: '🍰' },
+  { id: 9, category: 'Stay-In', idea: 'Breakfast for dinner — make all your favorite breakfast foods at night', emoji: '🥞' },
+  { id: 10, category: 'Stay-In', idea: 'Create a scrapbook or photo album of your best memories together', emoji: '📚' },
+  { id: 11, category: 'Stay-In', idea: 'Play video games together all evening — go full competitive or co-op', emoji: '🎮' },
+  { id: 12, category: 'Stay-In', idea: 'Write each other a letter about how you feel — then read them aloud', emoji: '💌' },
+  // Go Out
+  { id: 13, category: 'Go Out', idea: 'Try a restaurant neither of you has ever been to — let the waiter recommend', emoji: '🍽️' },
+  { id: 14, category: 'Go Out', idea: 'Visit a museum or art gallery and give each other commentary on every piece', emoji: '🖼️' },
+  { id: 15, category: 'Go Out', idea: 'Catch a movie then debate it over food afterwards — was it good or bad?', emoji: '🎬' },
+  { id: 16, category: 'Go Out', idea: 'Take a long evening walk somewhere scenic — no destination, just explore', emoji: '🚶' },
+  { id: 17, category: 'Go Out', idea: 'Go bowling and keep proper score — loser buys ice cream after', emoji: '🎳' },
+  { id: 18, category: 'Go Out', idea: 'Karaoke night — pick each other\'s songs', emoji: '🎤' },
+  { id: 19, category: 'Go Out', idea: 'Visit a local market together and cook a meal using only what you find there', emoji: '🧺' },
+  { id: 20, category: 'Go Out', idea: 'Attend a live music event, concert, or open-mic night', emoji: '🎵' },
+  { id: 21, category: 'Go Out', idea: 'Mini golf — most creative shot of the night wins a prize', emoji: '⛳' },
+  { id: 22, category: 'Go Out', idea: 'Go to a live sports event and fully commit to supporting a team', emoji: '🏆' },
+  { id: 23, category: 'Go Out', idea: 'Dessert only date — visit 3 different places and only order dessert', emoji: '🍦' },
+  { id: 24, category: 'Go Out', idea: 'Drive-in movie or outdoor screening with blankets and snacks', emoji: '🚗' },
+  // Adventure
+  { id: 25, category: 'Adventure', idea: 'Go hiking somewhere new — bring a proper picnic for the top', emoji: '🥾' },
+  { id: 26, category: 'Adventure', idea: 'Spontaneous road trip — pick a direction and just drive for 2 hours', emoji: '🗺️' },
+  { id: 27, category: 'Adventure', idea: 'Try an escape room together and see how well you work as a team', emoji: '🔐' },
+  { id: 28, category: 'Adventure', idea: 'Take a dance class together — salsa, contemporary, whatever is available', emoji: '💃' },
+  { id: 29, category: 'Adventure', idea: 'Try axe throwing or archery for the first time', emoji: '🪓' },
+  { id: 30, category: 'Adventure', idea: 'Go to a theme park or fairground and ride everything', emoji: '🎡' },
+  { id: 31, category: 'Adventure', idea: 'Rent bikes and explore a part of the city you never visit', emoji: '🚲' },
+  { id: 32, category: 'Adventure', idea: 'Take a pottery class together — make each other something to keep', emoji: '🏺' },
+  { id: 33, category: 'Adventure', idea: 'Try a new sport together — tennis, badminton, rock climbing, or archery', emoji: '🎾' },
+  { id: 34, category: 'Adventure', idea: 'Go kayaking or canoeing on a river or lake', emoji: '🛶' },
+  { id: 35, category: 'Adventure', idea: 'Book a spontaneous one-night stay somewhere new — mini getaway', emoji: '🏨' },
+  { id: 36, category: 'Adventure', idea: 'Go to a trampoline park or indoor climbing gym', emoji: '🧗' },
+  // Romantic
+  { id: 37, category: 'Romantic', idea: 'Proper candlelit dinner at home — dress up, set the table, the works', emoji: '🕯️' },
+  { id: 38, category: 'Romantic', idea: 'Watch the sunset from the most beautiful viewpoint you can find', emoji: '🌅' },
+  { id: 39, category: 'Romantic', idea: 'Stargaze on a blanket far from city lights — bring hot drinks', emoji: '⭐' },
+  { id: 40, category: 'Romantic', idea: 'Slow dance together in the living room to songs that matter to you', emoji: '💃' },
+  { id: 41, category: 'Romantic', idea: 'Write handwritten love letters and exchange them over dinner', emoji: '💌' },
+  { id: 42, category: 'Romantic', idea: 'Watch the sunrise together after staying up all night talking', emoji: '🌄' },
+  { id: 43, category: 'Romantic', idea: 'Recreate your first date as accurately as possible', emoji: '🔄' },
+  { id: 44, category: 'Romantic', idea: 'Take a couples photoshoot around your city — dress nicely and just walk', emoji: '📸' },
+  { id: 45, category: 'Romantic', idea: 'Plan a proper picnic — real food, a blanket, a beautiful location, no phones', emoji: '🧺' },
+  { id: 46, category: 'Romantic', idea: 'Make a playlist together — take turns adding songs that describe your relationship', emoji: '🎵' },
+  // Creative
+  { id: 47, category: 'Creative', idea: 'Take an online class together — cocktail making, baking, language, or art', emoji: '📚' },
+  { id: 48, category: 'Creative', idea: 'Write a short story together — alternate sentences for 30 minutes', emoji: '✍️' },
+  { id: 49, category: 'Creative', idea: 'Have a bake-off: each make the same thing separately and rate each other', emoji: '⚖️' },
+  { id: 50, category: 'Creative', idea: 'Create a vision board for your future together — magazines, glue, dreams', emoji: '🖼️' },
+  { id: 51, category: 'Creative', idea: 'Take a photography walk and tell a story through 10 photos together', emoji: '📷' },
+  { id: 52, category: 'Creative', idea: 'Cook recipes from a completely different culture — research it together first', emoji: '🌍' },
+  { id: 53, category: 'Creative', idea: 'Make a time capsule together — seal it and agree to open it in exactly one year', emoji: '📦' },
+  { id: 54, category: 'Creative', idea: 'Create a relationship soundtrack — a full playlist from first meeting to now', emoji: '🎶' },
+  { id: 55, category: 'Creative', idea: 'DIY wine and canvas night at home — paint the same thing and compare results', emoji: '🎨' },
 ];
