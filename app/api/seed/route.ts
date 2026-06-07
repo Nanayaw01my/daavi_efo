@@ -10,12 +10,14 @@ export const dynamic = 'force-dynamic';
 async function seed() {
   await connectDB();
 
-  const adminExists = await User.findOne({ username: 'admin' });
-  if (!adminExists) {
-    const password = process.env.ADMIN_PASSWORD || 'Admin@2024';
-    const hash = await bcrypt.hash(password, 12);
-    await User.create({ username: 'admin', displayName: 'Admin', password: hash, role: 'admin' });
-  }
+  // Always upsert admin so password stays in sync with env var
+  const password = process.env.ADMIN_PASSWORD || 'Admin@2024';
+  const hash = await bcrypt.hash(password, 12);
+  await User.findOneAndUpdate(
+    { username: 'admin' },
+    { username: 'admin', displayName: 'Admin', password: hash, role: 'admin' },
+    { upsert: true, new: true }
+  );
 
   const count = await PickNumber.countDocuments();
   if (count === 0) {
