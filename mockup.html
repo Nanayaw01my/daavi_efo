@@ -1,0 +1,1675 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Efo ❤️ Daavi — Preview</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --white: #FFFFFF;
+      --soft-white: #F8F8F8;
+      --black: #000000;
+      --charcoal: #333333;
+      --mid-gray: #888888;
+      --light-gray: #E5E5E5;
+      --ultra-light: #F2F2F2;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--white);
+      color: var(--black);
+      overflow-x: hidden;
+    }
+
+    /* ─── NAVIGATION ─── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 48px;
+      background: rgba(255,255,255,0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(229,229,229,0.6);
+    }
+
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      color: var(--black);
+    }
+
+    .nav-logo span { color: #888; font-size: 14px; margin-left: 4px; }
+
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--charcoal);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--black); }
+
+    .nav-cta {
+      background: var(--black);
+      color: var(--white) !important;
+      padding: 9px 20px;
+      border-radius: 100px;
+      font-size: 12px !important;
+    }
+
+    /* ─── HERO ─── */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      background: var(--white);
+      padding: 120px 24px 80px;
+    }
+
+    .hero-bg-circles {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+
+    .circle {
+      position: absolute;
+      border-radius: 50%;
+      border: 1px solid rgba(0,0,0,0.06);
+      animation: pulse 6s ease-in-out infinite;
+    }
+
+    .circle-1 { width: 600px; height: 600px; top: -100px; right: -150px; animation-delay: 0s; }
+    .circle-2 { width: 400px; height: 400px; bottom: -50px; left: -100px; animation-delay: 2s; }
+    .circle-3 { width: 250px; height: 250px; top: 40%; left: 10%; animation-delay: 4s; }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 0.5; }
+      50% { transform: scale(1.05); opacity: 1; }
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--soft-white);
+      border: 1px solid var(--light-gray);
+      border-radius: 100px;
+      padding: 8px 18px;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--charcoal);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 36px;
+      animation: fadeUp 0.8s ease both;
+    }
+
+    .hero-badge .dot {
+      width: 6px; height: 6px;
+      background: var(--black);
+      border-radius: 50%;
+      animation: blink 1.5s ease infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.2; }
+    }
+
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(52px, 8vw, 96px);
+      font-weight: 700;
+      text-align: center;
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      animation: fadeUp 0.8s 0.15s ease both;
+      max-width: 900px;
+    }
+
+    .hero-title .heart {
+      display: inline-block;
+      animation: heartbeat 1.8s ease infinite;
+    }
+
+    @keyframes heartbeat {
+      0%, 100% { transform: scale(1); }
+      14% { transform: scale(1.15); }
+      28% { transform: scale(1); }
+      42% { transform: scale(1.08); }
+      70% { transform: scale(1); }
+    }
+
+    .hero-subtitle {
+      font-size: 18px;
+      color: var(--mid-gray);
+      text-align: center;
+      max-width: 520px;
+      line-height: 1.7;
+      margin-top: 24px;
+      font-weight: 400;
+      animation: fadeUp 0.8s 0.3s ease both;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 16px;
+      margin-top: 48px;
+      animation: fadeUp 0.8s 0.45s ease both;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .btn-primary {
+      background: var(--black);
+      color: var(--white);
+      border: none;
+      padding: 16px 36px;
+      border-radius: 100px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      letter-spacing: 0.03em;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.2);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--black);
+      border: 1.5px solid var(--black);
+      padding: 16px 36px;
+      border-radius: 100px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      letter-spacing: 0.03em;
+      transition: all 0.3s ease;
+      text-decoration: none;
+    }
+
+    .btn-secondary:hover {
+      background: var(--black);
+      color: var(--white);
+      transform: translateY(-2px);
+    }
+
+    /* Floating stats */
+    .floating-stats {
+      display: flex;
+      gap: 20px;
+      margin-top: 72px;
+      animation: fadeUp 0.8s 0.6s ease both;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .stat-pill {
+      background: var(--soft-white);
+      border: 1px solid var(--light-gray);
+      border-radius: 16px;
+      padding: 16px 24px;
+      text-align: center;
+      min-width: 130px;
+      transition: all 0.3s ease;
+    }
+
+    .stat-pill:hover {
+      background: var(--black);
+      color: var(--white);
+      transform: translateY(-4px);
+      box-shadow: 0 16px 40px rgba(0,0,0,0.12);
+    }
+
+    .stat-pill:hover .stat-label { color: rgba(255,255,255,0.6); }
+
+    .stat-number {
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      line-height: 1;
+    }
+
+    .stat-label {
+      font-size: 11px;
+      color: var(--mid-gray);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-top: 4px;
+      font-weight: 500;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ─── SECTION SHARED ─── */
+    section {
+      padding: 100px 48px;
+    }
+
+    .section-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--mid-gray);
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(32px, 5vw, 52px);
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      max-width: 600px;
+    }
+
+    .section-desc {
+      font-size: 16px;
+      color: var(--mid-gray);
+      max-width: 480px;
+      line-height: 1.7;
+      margin-top: 16px;
+    }
+
+    /* ─── DASHBOARD SECTION ─── */
+    #dashboard {
+      background: var(--soft-white);
+    }
+
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 20px;
+      margin-top: 56px;
+    }
+
+    .card {
+      background: var(--white);
+      border: 1px solid var(--light-gray);
+      border-radius: 20px;
+      padding: 28px;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.08);
+      border-color: var(--black);
+    }
+
+    .card-icon {
+      width: 44px;
+      height: 44px;
+      background: var(--soft-white);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      margin-bottom: 16px;
+      border: 1px solid var(--light-gray);
+    }
+
+    .card-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--mid-gray);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 8px;
+    }
+
+    .card-value {
+      font-size: 36px;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1;
+    }
+
+    .card-sub {
+      font-size: 13px;
+      color: var(--mid-gray);
+      margin-top: 6px;
+    }
+
+    .card-wide {
+      grid-column: span 2;
+    }
+
+    .card-full {
+      grid-column: span 3;
+    }
+
+    /* Progress bar */
+    .progress-bar {
+      width: 100%;
+      height: 4px;
+      background: var(--light-gray);
+      border-radius: 2px;
+      margin-top: 16px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: var(--black);
+      border-radius: 2px;
+      transition: width 1s ease;
+    }
+
+    /* Quick actions */
+    .quick-actions {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .action-btn {
+      background: var(--soft-white);
+      border: 1px solid var(--light-gray);
+      border-radius: 14px;
+      padding: 16px 12px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--charcoal);
+      letter-spacing: 0.03em;
+    }
+
+    .action-btn .action-icon { font-size: 22px; display: block; margin-bottom: 8px; }
+
+    .action-btn:hover {
+      background: var(--black);
+      color: var(--white);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+    }
+
+    /* Mood dots */
+    .mood-row {
+      display: flex;
+      gap: 8px;
+      margin-top: 12px;
+      flex-wrap: wrap;
+    }
+
+    .mood-dot {
+      padding: 6px 14px;
+      border-radius: 100px;
+      font-size: 12px;
+      font-weight: 500;
+      border: 1px solid var(--light-gray);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .mood-dot:hover, .mood-dot.active {
+      background: var(--black);
+      color: var(--white);
+      border-color: var(--black);
+    }
+
+    /* ─── GAMES SECTION ─── */
+    #games { background: var(--white); }
+
+    .games-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-top: 56px;
+    }
+
+    .game-card {
+      border: 1px solid var(--light-gray);
+      border-radius: 20px;
+      padding: 28px 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      background: var(--white);
+    }
+
+    .game-card:hover {
+      background: var(--black);
+      color: var(--white);
+      transform: translateY(-6px);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+      border-color: var(--black);
+    }
+
+    .game-card:hover .game-desc { color: rgba(255,255,255,0.6); }
+    .game-card:hover .game-badge { background: rgba(255,255,255,0.15); color: white; }
+
+    .game-emoji { font-size: 36px; margin-bottom: 14px; display: block; }
+
+    .game-title {
+      font-size: 15px;
+      font-weight: 700;
+      margin-bottom: 6px;
+      letter-spacing: -0.01em;
+    }
+
+    .game-desc {
+      font-size: 12px;
+      color: var(--mid-gray);
+      line-height: 1.5;
+    }
+
+    .game-badge {
+      display: inline-block;
+      margin-top: 12px;
+      padding: 4px 12px;
+      background: var(--soft-white);
+      border-radius: 100px;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--charcoal);
+    }
+
+    /* ─── PICK A NUMBER ─── */
+    #pick-a-number { background: var(--soft-white); }
+
+    .number-grid {
+      display: grid;
+      grid-template-columns: repeat(10, 1fr);
+      gap: 10px;
+      margin-top: 40px;
+      max-width: 700px;
+    }
+
+    .num-btn {
+      aspect-ratio: 1;
+      border: 1.5px solid var(--light-gray);
+      border-radius: 14px;
+      background: var(--white);
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .num-btn:hover {
+      background: var(--black);
+      color: var(--white);
+      border-color: var(--black);
+      transform: scale(1.08);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    }
+
+    .num-btn.answered {
+      background: var(--charcoal);
+      color: var(--white);
+      border-color: var(--charcoal);
+    }
+
+    .question-reveal {
+      margin-top: 40px;
+      background: var(--white);
+      border: 1px solid var(--light-gray);
+      border-radius: 24px;
+      padding: 40px;
+      max-width: 600px;
+    }
+
+    .question-category {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--mid-gray);
+      margin-bottom: 12px;
+    }
+
+    .question-text {
+      font-family: 'Playfair Display', serif;
+      font-size: 24px;
+      font-weight: 400;
+      font-style: italic;
+      line-height: 1.5;
+      color: var(--black);
+    }
+
+    .answer-area {
+      margin-top: 24px;
+      width: 100%;
+      border: 1px solid var(--light-gray);
+      border-radius: 14px;
+      padding: 16px 20px;
+      font-size: 14px;
+      font-family: 'Inter', sans-serif;
+      resize: none;
+      outline: none;
+      color: var(--black);
+      transition: border-color 0.2s;
+      height: 100px;
+    }
+
+    .answer-area:focus { border-color: var(--black); }
+
+    /* ─── REFLECTION ─── */
+    #reflection { background: var(--white); }
+
+    .reflection-layout {
+      display: grid;
+      grid-template-columns: 1fr 1.5fr;
+      gap: 60px;
+      margin-top: 56px;
+      align-items: start;
+    }
+
+    .week-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .week-item {
+      padding: 18px 20px;
+      border: 1px solid var(--light-gray);
+      border-radius: 14px;
+      cursor: pointer;
+      transition: all 0.25s;
+      background: var(--white);
+    }
+
+    .week-item:hover, .week-item.active {
+      background: var(--black);
+      color: var(--white);
+      border-color: var(--black);
+    }
+
+    .week-item.active .week-sub { color: rgba(255,255,255,0.6); }
+
+    .week-name { font-size: 14px; font-weight: 600; }
+    .week-sub { font-size: 12px; color: var(--mid-gray); margin-top: 2px; }
+
+    .reflection-form {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .field-label {
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--charcoal);
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    .text-input {
+      width: 100%;
+      border: 1px solid var(--light-gray);
+      border-radius: 14px;
+      padding: 14px 18px;
+      font-size: 14px;
+      font-family: 'Inter', sans-serif;
+      color: var(--black);
+      outline: none;
+      transition: border-color 0.2s;
+      resize: none;
+      background: var(--white);
+    }
+
+    .text-input:focus { border-color: var(--black); }
+
+    /* ─── MEMORY GALLERY ─── */
+    #gallery { background: var(--soft-white); }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 56px;
+    }
+
+    .memory-card {
+      border-radius: 20px;
+      overflow: hidden;
+      position: relative;
+      aspect-ratio: 4/3;
+      background: var(--light-gray);
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+
+    .memory-card:hover { transform: scale(1.02); }
+    .memory-card:nth-child(1) { grid-row: span 2; aspect-ratio: auto; }
+
+    .memory-placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #f0f0f0, #e0e0e0);
+      color: var(--mid-gray);
+    }
+
+    .memory-placeholder .mem-icon { font-size: 32px; margin-bottom: 8px; }
+    .memory-placeholder .mem-label { font-size: 12px; font-weight: 500; }
+
+    .memory-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 50%);
+      opacity: 0;
+      transition: opacity 0.3s;
+      display: flex;
+      align-items: flex-end;
+      padding: 20px;
+    }
+
+    .memory-card:hover .memory-overlay { opacity: 1; }
+
+    .memory-caption {
+      color: white;
+      font-size: 13px;
+      font-weight: 500;
+      line-height: 1.4;
+    }
+
+    .upload-btn {
+      border: 2px dashed var(--light-gray);
+      border-radius: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s;
+      aspect-ratio: 4/3;
+      color: var(--mid-gray);
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    .upload-btn:hover {
+      border-color: var(--black);
+      color: var(--black);
+      background: rgba(0,0,0,0.02);
+    }
+
+    .upload-btn .up-icon { font-size: 28px; margin-bottom: 8px; }
+
+    /* ─── MOOD TRACKER ─── */
+    #mood { background: var(--white); }
+
+    .mood-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 10px;
+      margin-top: 40px;
+    }
+
+    .mood-card {
+      border: 1.5px solid var(--light-gray);
+      border-radius: 16px;
+      padding: 16px 8px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.25s;
+      background: var(--white);
+    }
+
+    .mood-card:hover {
+      background: var(--black);
+      color: var(--white);
+      border-color: var(--black);
+      transform: translateY(-4px);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.1);
+    }
+
+    .mood-card .mood-emoji { font-size: 28px; display: block; margin-bottom: 8px; }
+    .mood-card .mood-name { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; }
+
+    .mood-chart {
+      margin-top: 40px;
+      background: var(--soft-white);
+      border: 1px solid var(--light-gray);
+      border-radius: 20px;
+      padding: 32px;
+      max-width: 600px;
+    }
+
+    .chart-title { font-size: 13px; font-weight: 600; color: var(--mid-gray); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 20px; }
+
+    .chart-bars {
+      display: flex;
+      gap: 8px;
+      align-items: flex-end;
+      height: 80px;
+    }
+
+    .bar {
+      flex: 1;
+      background: var(--light-gray);
+      border-radius: 4px;
+      transition: height 0.8s ease;
+      position: relative;
+    }
+
+    .bar:hover { background: var(--black); }
+    .bar .bar-label { position: absolute; bottom: -20px; left: 50%; transform: translateX(-50%); font-size: 10px; color: var(--mid-gray); white-space: nowrap; }
+
+    /* ─── AUTH SECTION ─── */
+    #auth {
+      background: var(--black);
+      color: var(--white);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    #auth .section-title { color: var(--white); }
+    #auth .section-desc { color: rgba(255,255,255,0.5); }
+
+    .auth-cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-top: 56px;
+      max-width: 600px;
+      width: 100%;
+    }
+
+    .auth-card {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 24px;
+      padding: 36px 28px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s;
+      backdrop-filter: blur(10px);
+    }
+
+    .auth-card:hover {
+      background: rgba(255,255,255,0.12);
+      transform: translateY(-4px);
+      border-color: rgba(255,255,255,0.25);
+    }
+
+    .auth-avatar {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.1);
+      border: 2px solid rgba(255,255,255,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      margin: 0 auto 16px;
+    }
+
+    .auth-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--white);
+    }
+
+    .auth-role {
+      font-size: 12px;
+      color: rgba(255,255,255,0.4);
+      margin-top: 4px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .auth-btn {
+      margin-top: 20px;
+      width: 100%;
+      padding: 12px;
+      background: rgba(255,255,255,0.1);
+      color: white;
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 100px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      letter-spacing: 0.05em;
+    }
+
+    .auth-btn:hover {
+      background: var(--white);
+      color: var(--black);
+    }
+
+    /* ─── NOTES BOARD ─── */
+    #notes { background: var(--soft-white); }
+
+    .notes-board {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 56px;
+    }
+
+    .note-card {
+      background: var(--white);
+      border: 1px solid var(--light-gray);
+      border-radius: 18px;
+      padding: 24px;
+      transition: all 0.25s;
+      cursor: pointer;
+    }
+
+    .note-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 40px rgba(0,0,0,0.08);
+    }
+
+    .note-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+
+    .note-author { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; }
+    .note-time { font-size: 11px; color: var(--mid-gray); }
+    .note-text { font-size: 14px; line-height: 1.65; color: var(--charcoal); }
+    .note-tag {
+      display: inline-block;
+      margin-top: 12px;
+      padding: 4px 10px;
+      background: var(--soft-white);
+      border: 1px solid var(--light-gray);
+      border-radius: 100px;
+      font-size: 11px;
+      color: var(--mid-gray);
+      font-weight: 500;
+    }
+
+    .add-note-card {
+      background: transparent;
+      border: 2px dashed var(--light-gray);
+      border-radius: 18px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 160px;
+      cursor: pointer;
+      transition: all 0.25s;
+      color: var(--mid-gray);
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    .add-note-card:hover {
+      border-color: var(--black);
+      color: var(--black);
+      background: rgba(0,0,0,0.01);
+    }
+
+    .add-note-card .plus { font-size: 28px; margin-bottom: 8px; }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background: var(--black);
+      color: rgba(255,255,255,0.4);
+      text-align: center;
+      padding: 40px 48px;
+      font-size: 13px;
+      letter-spacing: 0.05em;
+    }
+
+    footer strong { color: rgba(255,255,255,0.8); font-family: 'Playfair Display', serif; }
+
+    /* ─── SCROLL INDICATOR ─── */
+    .scroll-indicator {
+      position: absolute;
+      bottom: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      color: var(--mid-gray);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      animation: bounce 2s ease infinite;
+    }
+
+    .scroll-arrow {
+      width: 20px;
+      height: 20px;
+      border-right: 1.5px solid currentColor;
+      border-bottom: 1.5px solid currentColor;
+      transform: rotate(45deg);
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(6px); }
+    }
+
+    /* ─── SECTION DIVIDER ─── */
+    .divider {
+      width: 48px;
+      height: 2px;
+      background: var(--black);
+      margin: 20px 0;
+    }
+
+    /* ─── PILL LABEL ─── */
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--black);
+      color: var(--white);
+      padding: 6px 14px;
+      border-radius: 100px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+    }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 900px) {
+      nav { padding: 16px 20px; }
+      .nav-links { display: none; }
+      section { padding: 72px 20px; }
+      .dashboard-grid { grid-template-columns: 1fr 1fr; }
+      .card-wide { grid-column: span 2; }
+      .card-full { grid-column: span 2; }
+      .games-grid { grid-template-columns: repeat(2, 1fr); }
+      .number-grid { grid-template-columns: repeat(5, 1fr); }
+      .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+      .gallery-grid .memory-card:nth-child(1) { grid-row: span 1; }
+      .mood-grid { grid-template-columns: repeat(4, 1fr); }
+      .auth-cards { grid-template-columns: 1fr; }
+      .notes-board { grid-template-columns: 1fr 1fr; }
+      .reflection-layout { grid-template-columns: 1fr; }
+      .quick-actions { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 600px) {
+      .dashboard-grid { grid-template-columns: 1fr; }
+      .card-wide, .card-full { grid-column: span 1; }
+      .games-grid { grid-template-columns: 1fr 1fr; }
+      .gallery-grid { grid-template-columns: 1fr; }
+      .mood-grid { grid-template-columns: repeat(4, 1fr); }
+      .notes-board { grid-template-columns: 1fr; }
+    }
+
+    /* ─── INTERSECTION OBSERVER ANIMATIONS ─── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-logo">Efo <span>❤️</span> Daavi</div>
+    <ul class="nav-links">
+      <li><a href="#dashboard">Dashboard</a></li>
+      <li><a href="#games">Games</a></li>
+      <li><a href="#reflection">Reflections</a></li>
+      <li><a href="#gallery">Memories</a></li>
+      <li><a href="#auth" class="nav-cta">Enter Space</a></li>
+    </ul>
+  </nav>
+
+  <!-- ════════════════════════════════ HERO ════════════════════════════════ -->
+  <section id="hero">
+    <div class="hero-bg-circles">
+      <div class="circle circle-1"></div>
+      <div class="circle circle-2"></div>
+      <div class="circle circle-3"></div>
+    </div>
+
+    <div class="hero-badge">
+      <span class="dot"></span>
+      Private &nbsp;·&nbsp; Intimate &nbsp;·&nbsp; Exclusively Ours
+    </div>
+
+    <h1 class="hero-title">
+      Efo <span class="heart">❤️</span> Daavi
+    </h1>
+
+    <p class="hero-subtitle">
+      Built for us. Our memories, our games, our growth. A private relationship operating system.
+    </p>
+
+    <div class="hero-actions">
+      <a href="#dashboard" class="btn-primary">Enter Our Space &nbsp;→</a>
+      <a href="#gallery" class="btn-secondary">View Memories</a>
+    </div>
+
+    <div class="floating-stats">
+      <div class="stat-pill">
+        <div class="stat-number" id="days-counter">847</div>
+        <div class="stat-label">Days Together</div>
+      </div>
+      <div class="stat-pill">
+        <div class="stat-number">42</div>
+        <div class="stat-label">Memories Saved</div>
+      </div>
+      <div class="stat-pill">
+        <div class="stat-number">28</div>
+        <div class="stat-label">Games Played</div>
+      </div>
+      <div class="stat-pill">
+        <div class="stat-number">16</div>
+        <div class="stat-label">Reflections</div>
+      </div>
+      <div class="stat-pill">
+        <div class="stat-number">12</div>
+        <div class="stat-label">Days to Anniv.</div>
+      </div>
+    </div>
+
+    <div class="scroll-indicator">
+      <span>Explore</span>
+      <div class="scroll-arrow"></div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════ DASHBOARD ════════════════════════════════ -->
+  <section id="dashboard">
+    <div class="reveal">
+      <div class="pill">✦ Dashboard</div>
+      <div class="section-label">Home</div>
+      <h2 class="section-title">Your Relationship<br>at a Glance</h2>
+      <p class="section-desc">Everything important about us, beautifully organized in one place.</p>
+    </div>
+
+    <div class="dashboard-grid reveal">
+
+      <div class="card">
+        <div class="card-icon">📅</div>
+        <div class="card-title">Days Together</div>
+        <div class="card-value">847</div>
+        <div class="card-sub">Since January 3rd, 2023</div>
+        <div class="progress-bar"><div class="progress-fill" style="width:70%"></div></div>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">💍</div>
+        <div class="card-title">Anniversary In</div>
+        <div class="card-value">12</div>
+        <div class="card-sub">Days — January 3rd, 2026</div>
+        <div class="progress-bar"><div class="progress-fill" style="width:90%"></div></div>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">📓</div>
+        <div class="card-title">This Week's Reflection</div>
+        <div class="card-value" style="font-size:24px;">Both Done ✓</div>
+        <div class="card-sub">Week 52 · Both submitted</div>
+      </div>
+
+      <div class="card card-wide">
+        <div class="card-icon">⚡</div>
+        <div class="card-title">Quick Actions</div>
+        <div class="quick-actions" style="margin-top:12px;">
+          <div class="action-btn"><span class="action-icon">🎮</span>Play Game</div>
+          <div class="action-btn"><span class="action-icon">📝</span>Reflect</div>
+          <div class="action-btn"><span class="action-icon">📸</span>Memory</div>
+          <div class="action-btn"><span class="action-icon">💌</span>Leave Note</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">😊</div>
+        <div class="card-title">Today's Mood</div>
+        <div class="mood-row">
+          <div class="mood-dot active">🥰 Romantic</div>
+          <div class="mood-dot">😊 Happy</div>
+          <div class="mood-dot">😌 Calm</div>
+          <div class="mood-dot">🙏 Grateful</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">🏆</div>
+        <div class="card-title">Latest Memory</div>
+        <div class="card-value" style="font-size:18px; margin-top:8px;">"Our beach trip 🌊"</div>
+        <div class="card-sub">Added 3 days ago · December 4th</div>
+      </div>
+
+      <div class="card card-wide">
+        <div class="card-icon">📊</div>
+        <div class="card-title">Relationship Stats</div>
+        <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-top:16px;">
+          <div style="text-align:center;">
+            <div style="font-size:24px;font-weight:800;">28</div>
+            <div style="font-size:11px;color:var(--mid-gray);text-transform:uppercase;letter-spacing:0.06em;margin-top:2px;">Games</div>
+          </div>
+          <div style="text-align:center;">
+            <div style="font-size:24px;font-weight:800;">16</div>
+            <div style="font-size:11px;color:var(--mid-gray);text-transform:uppercase;letter-spacing:0.06em;margin-top:2px;">Reflections</div>
+          </div>
+          <div style="text-align:center;">
+            <div style="font-size:24px;font-weight:800;">42</div>
+            <div style="font-size:11px;color:var(--mid-gray);text-transform:uppercase;letter-spacing:0.06em;margin-top:2px;">Memories</div>
+          </div>
+          <div style="text-align:center;">
+            <div style="font-size:24px;font-weight:800;">8</div>
+            <div style="font-size:11px;color:var(--mid-gray);text-transform:uppercase;letter-spacing:0.06em;margin-top:2px;">Goals Met</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════ GAMES ════════════════════════════════ -->
+  <section id="games">
+    <div class="reveal">
+      <div class="pill">🎮 Games</div>
+      <div class="section-label">Play Together</div>
+      <h2 class="section-title">Couple Games<br>Just for Us</h2>
+      <p class="section-desc">Fun, deep, and intimate games designed to bring us closer every time we play.</p>
+    </div>
+
+    <div class="games-grid reveal">
+      <div class="game-card">
+        <span class="game-emoji">🔢</span>
+        <div class="game-title">Pick A Number</div>
+        <div class="game-desc">Choose a number, reveal a question, share your heart.</div>
+        <div class="game-badge">50 Questions</div>
+      </div>
+      <div class="game-card">
+        <span class="game-emoji">🎭</span>
+        <div class="game-title">Truth or Dare</div>
+        <div class="game-desc">Couples edition with romantic and deep prompts.</div>
+        <div class="game-badge">Couples Edition</div>
+      </div>
+      <div class="game-card">
+        <span class="game-emoji">🤔</span>
+        <div class="game-title">Would You Rather</div>
+        <div class="game-desc">Fun dilemmas that reveal who we really are.</div>
+        <div class="game-badge">100 Scenarios</div>
+      </div>
+      <div class="game-card">
+        <span class="game-emoji">⚡</span>
+        <div class="game-title">This or That</div>
+        <div class="game-desc">Quick fire choices — how well do we know each other?</div>
+        <div class="game-badge">Fast Paced</div>
+      </div>
+      <div class="game-card">
+        <span class="game-emoji">🧠</span>
+        <div class="game-title">Guess Your Partner</div>
+        <div class="game-desc">Predict what your partner will say or do.</div>
+        <div class="game-badge">Scored</div>
+      </div>
+      <div class="game-card">
+        <span class="game-emoji">💝</span>
+        <div class="game-title">Love Quiz</div>
+        <div class="game-desc">Test how deeply you know your partner's world.</div>
+        <div class="game-badge">Weekly Reset</div>
+      </div>
+      <div class="game-card">
+        <span class="game-emoji">🌙</span>
+        <div class="game-title">Date Night Generator</div>
+        <div class="game-desc">Spin for spontaneous, curated date night ideas.</div>
+        <div class="game-badge">50+ Ideas</div>
+      </div>
+      <div class="game-card">
+        <span class="game-emoji">🏆</span>
+        <div class="game-title">Memory Challenge</div>
+        <div class="game-desc">Relive our shared memories in a fun quiz format.</div>
+        <div class="game-badge">Our Memories</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════ PICK A NUMBER ════════════════════════════════ -->
+  <section id="pick-a-number" style="background:var(--soft-white);">
+    <div class="reveal">
+      <div class="pill">🔢 Game</div>
+      <div class="section-label">Pick A Number</div>
+      <h2 class="section-title">Choose a Number,<br>Open Your Heart</h2>
+      <p class="section-desc">Each number hides a relationship question. Answer honestly, answer together.</p>
+    </div>
+
+    <div class="number-grid reveal" id="numGrid"></div>
+
+    <div class="question-reveal reveal" id="questionBox" style="display:none;">
+      <div class="question-category">💕 Romantic</div>
+      <div class="question-text" id="questionText">"What is your favorite memory of us?"</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:24px;">
+        <div>
+          <label class="field-label" style="display:block;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--charcoal);margin-bottom:8px;">Efo's Answer</label>
+          <textarea class="answer-area" placeholder="Type your answer..."></textarea>
+        </div>
+        <div>
+          <label class="field-label" style="display:block;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--charcoal);margin-bottom:8px;">Daavi's Answer</label>
+          <textarea class="answer-area" placeholder="Type your answer..."></textarea>
+        </div>
+      </div>
+      <button class="btn-primary" style="margin-top:20px;border-radius:12px;">Save Our Answers ✓</button>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════ WEEKLY REFLECTION ════════════════════════════════ -->
+  <section id="reflection">
+    <div class="reveal">
+      <div class="pill">💌 Reflections</div>
+      <div class="section-label">Weekly Journal</div>
+      <h2 class="section-title">Weekly Reflection<br>Space</h2>
+      <p class="section-desc">Each week, both Efo and Daavi independently reflect, share, and grow together.</p>
+    </div>
+
+    <div class="reflection-layout reveal">
+      <div>
+        <div class="week-list">
+          <div class="week-item active">
+            <div class="week-name">Week 52 · This Week</div>
+            <div class="week-sub">Dec 1 – Dec 7, 2025 · Both Submitted</div>
+          </div>
+          <div class="week-item">
+            <div class="week-name">Week 51</div>
+            <div class="week-sub">Nov 24 – Nov 30, 2025 · Both Submitted</div>
+          </div>
+          <div class="week-item">
+            <div class="week-name">Week 50</div>
+            <div class="week-sub">Nov 17 – Nov 23, 2025 · Both Submitted</div>
+          </div>
+          <div class="week-item">
+            <div class="week-name">Week 49</div>
+            <div class="week-sub">Nov 10 – Nov 16, 2025 · Efo Only</div>
+          </div>
+          <div class="week-item">
+            <div class="week-name">Week 48</div>
+            <div class="week-sub">Nov 3 – Nov 9, 2025 · Both Submitted</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="reflection-form">
+        <div>
+          <label class="field-label">What went well this week?</label>
+          <textarea class="text-input" rows="3" placeholder="Share what made this week special..."></textarea>
+        </div>
+        <div>
+          <label class="field-label">What made me happy?</label>
+          <textarea class="text-input" rows="2" placeholder="Moments of joy this week..."></textarea>
+        </div>
+        <div>
+          <label class="field-label">I appreciate my partner for...</label>
+          <textarea class="text-input" rows="2" placeholder="What did your partner do that touched you?"></textarea>
+        </div>
+        <div>
+          <label class="field-label">Areas we can improve</label>
+          <textarea class="text-input" rows="2" placeholder="Honest, kind growth notes..."></textarea>
+        </div>
+        <div>
+          <label class="field-label">Goals for next week</label>
+          <textarea class="text-input" rows="2" placeholder="What do you want to achieve together?"></textarea>
+        </div>
+        <button class="btn-primary" style="align-self:flex-start;border-radius:12px;">Submit Reflection 💌</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════ MEMORY GALLERY ════════════════════════════════ -->
+  <section id="gallery">
+    <div class="reveal">
+      <div class="pill">📸 Gallery</div>
+      <div class="section-label">Memories</div>
+      <h2 class="section-title">Our Beautiful<br>Moments</h2>
+      <p class="section-desc">Every photo, every caption — a living timeline of us.</p>
+    </div>
+
+    <div class="gallery-grid reveal">
+      <!-- Featured -->
+      <div class="memory-card" style="grid-row:span 2;min-height:400px;">
+        <div class="memory-placeholder" style="height:100%;">
+          <div class="mem-icon">🌊</div>
+          <div class="mem-label" style="font-size:14px;font-weight:600;">Our Beach Trip</div>
+          <div style="font-size:12px;color:var(--mid-gray);margin-top:4px;">December 4, 2025</div>
+        </div>
+        <div class="memory-overlay">
+          <div class="memory-caption">Our beach trip 🌊 — the sunset was unreal. Favorite day of 2025.</div>
+        </div>
+      </div>
+
+      <div class="memory-card">
+        <div class="memory-placeholder">
+          <div class="mem-icon">🎂</div>
+          <div class="mem-label">Birthday Surprise</div>
+        </div>
+        <div class="memory-overlay">
+          <div class="memory-caption">The birthday dinner you planned. I cried. 🎂</div>
+        </div>
+      </div>
+
+      <div class="memory-card">
+        <div class="memory-placeholder">
+          <div class="mem-icon">✈️</div>
+          <div class="mem-label">First Trip Together</div>
+        </div>
+        <div class="memory-overlay">
+          <div class="memory-caption">First time we traveled together. So nervous, so happy.</div>
+        </div>
+      </div>
+
+      <div class="memory-card">
+        <div class="memory-placeholder">
+          <div class="mem-icon">🍕</div>
+          <div class="mem-label">Our Spot</div>
+        </div>
+        <div class="memory-overlay">
+          <div class="memory-caption">That little pizza place we keep going back to.</div>
+        </div>
+      </div>
+
+      <div class="memory-card">
+        <div class="memory-placeholder">
+          <div class="mem-icon">🌅</div>
+          <div class="mem-label">Sunrise Walk</div>
+        </div>
+        <div class="memory-overlay">
+          <div class="memory-caption">Early morning, just us, the whole city quiet.</div>
+        </div>
+      </div>
+
+      <div class="upload-btn">
+        <span class="up-icon">＋</span>
+        Add a Memory
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════ MOOD TRACKER ════════════════════════════════ -->
+  <section id="mood">
+    <div class="reveal">
+      <div class="pill">😊 Mood</div>
+      <div class="section-label">Daily Tracker</div>
+      <h2 class="section-title">How Are We<br>Feeling Today?</h2>
+      <p class="section-desc">Track daily moods, see trends, understand each other better over time.</p>
+    </div>
+
+    <div class="mood-grid reveal">
+      <div class="mood-card">
+        <span class="mood-emoji">😊</span>
+        <div class="mood-name">Happy</div>
+      </div>
+      <div class="mood-card">
+        <span class="mood-emoji">🤩</span>
+        <div class="mood-name">Excited</div>
+      </div>
+      <div class="mood-card">
+        <span class="mood-emoji">😌</span>
+        <div class="mood-name">Calm</div>
+      </div>
+      <div class="mood-card">
+        <span class="mood-emoji">🙏</span>
+        <div class="mood-name">Grateful</div>
+      </div>
+      <div class="mood-card">
+        <span class="mood-emoji">🥰</span>
+        <div class="mood-name">Romantic</div>
+      </div>
+      <div class="mood-card">
+        <span class="mood-emoji">😴</span>
+        <div class="mood-name">Tired</div>
+      </div>
+      <div class="mood-card">
+        <span class="mood-emoji">😤</span>
+        <div class="mood-name">Stressed</div>
+      </div>
+    </div>
+
+    <div class="mood-chart reveal">
+      <div class="chart-title">Mood Trend — Last 14 Days (Efo)</div>
+      <div class="chart-bars">
+        <div class="bar" style="height:60%;"><div class="bar-label">Nov 24</div></div>
+        <div class="bar" style="height:80%;"><div class="bar-label">25</div></div>
+        <div class="bar" style="height:45%;"><div class="bar-label">26</div></div>
+        <div class="bar" style="height:90%;"><div class="bar-label">27</div></div>
+        <div class="bar" style="height:70%;"><div class="bar-label">28</div></div>
+        <div class="bar" style="height:55%;"><div class="bar-label">29</div></div>
+        <div class="bar" style="height:85%;"><div class="bar-label">30</div></div>
+        <div class="bar" style="height:100%;background:var(--black);"><div class="bar-label">Dec 1</div></div>
+        <div class="bar" style="height:75%;"><div class="bar-label">2</div></div>
+        <div class="bar" style="height:90%;"><div class="bar-label">3</div></div>
+        <div class="bar" style="height:95%;"><div class="bar-label">4</div></div>
+        <div class="bar" style="height:80%;"><div class="bar-label">5</div></div>
+        <div class="bar" style="height:70%;"><div class="bar-label">6</div></div>
+        <div class="bar" style="height:88%;"><div class="bar-label">Today</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════ NOTES BOARD ════════════════════════════════ -->
+  <section id="notes">
+    <div class="reveal">
+      <div class="pill">💌 Notes</div>
+      <div class="section-label">Shared Board</div>
+      <h2 class="section-title">Our Shared<br>Notes & Goals</h2>
+      <p class="section-desc">A living board for messages, reminders, dreams, and our bucket list.</p>
+    </div>
+
+    <div class="notes-board reveal">
+      <div class="note-card">
+        <div class="note-header">
+          <div class="note-author">Efo</div>
+          <div class="note-time">2h ago</div>
+        </div>
+        <div class="note-text">Don't forget — our reservation at La Maison is this Friday at 7pm. Dress nicely baby 🖤</div>
+        <div class="note-tag">📅 Reminder</div>
+      </div>
+
+      <div class="note-card">
+        <div class="note-header">
+          <div class="note-author">Daavi</div>
+          <div class="note-time">Yesterday</div>
+        </div>
+        <div class="note-text">I was thinking about you today and just wanted to say I'm so grateful for everything you do. You make ordinary days feel magical.</div>
+        <div class="note-tag">💝 Message</div>
+      </div>
+
+      <div class="note-card">
+        <div class="note-header">
+          <div class="note-author">Both of Us</div>
+          <div class="note-time">Dec 1</div>
+        </div>
+        <div class="note-text">
+          <strong>2026 Bucket List</strong><br>
+          ☑ Weekend trip to the coast<br>
+          ☐ Cook a new cuisine together<br>
+          ☐ Stargazing night outside the city<br>
+          ☐ Learn a dance together
+        </div>
+        <div class="note-tag">🎯 Goal</div>
+      </div>
+
+      <div class="note-card">
+        <div class="note-header">
+          <div class="note-author">Efo</div>
+          <div class="note-time">Nov 30</div>
+        </div>
+        <div class="note-text">Idea for our next date: Pottery class + dinner after. I saw a place downtown that does couples sessions. What do you think?</div>
+        <div class="note-tag">💡 Idea</div>
+      </div>
+
+      <div class="note-card">
+        <div class="note-header">
+          <div class="note-author">Daavi</div>
+          <div class="note-time">Nov 28</div>
+        </div>
+        <div class="note-text">Saving this: the song playing when we had that perfect evening in November. It needs to be "our song" officially.</div>
+        <div class="note-tag">🎵 Memory</div>
+      </div>
+
+      <div class="add-note-card">
+        <div class="plus">＋</div>
+        Leave a Note
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════ AUTH ════════════════════════════════ -->
+  <section id="auth">
+    <div class="reveal">
+      <div class="section-label" style="color:rgba(255,255,255,0.4);">Access</div>
+      <h2 class="section-title" style="color:white;max-width:100%;text-align:center;">Only Two People<br>Have Access</h2>
+      <p class="section-desc" style="text-align:center;margin:16px auto 0;">This is a private space. Only Efo and Daavi can enter.</p>
+    </div>
+
+    <div class="auth-cards reveal">
+      <div class="auth-card">
+        <div class="auth-avatar">🌸</div>
+        <div class="auth-name">Efo</div>
+        <div class="auth-role">Partner One</div>
+        <button class="auth-btn">Enter as Efo →</button>
+      </div>
+      <div class="auth-card">
+        <div class="auth-avatar">⭐</div>
+        <div class="auth-name">Daavi</div>
+        <div class="auth-role">Partner Two</div>
+        <button class="auth-btn">Enter as Daavi →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <strong>Efo ❤️ Daavi</strong> &nbsp;·&nbsp; Built exclusively for us &nbsp;·&nbsp; Private &amp; Intimate &nbsp;·&nbsp; Always Ours
+  </footer>
+
+  <script>
+    // Number grid
+    const questions = [
+      { cat: "💕 Romantic", q: "What is your favorite memory of us?" },
+      { cat: "🔮 Deep", q: "What do you think is our greatest strength as a couple?" },
+      { cat: "🙏 Appreciation", q: "What is one thing your partner does that always makes you smile?" },
+      { cat: "🌍 Future Goals", q: "What future adventure should we plan together?" },
+      { cat: "😄 Funny", q: "What would our reality TV show be called?" },
+      { cat: "📈 Growth", q: "What is something you want us to work on together?" },
+      { cat: "💕 Romantic", q: "When did you first know I was the one?" },
+      { cat: "🔮 Deep", q: "What does home feel like to you?" },
+      { cat: "🙏 Appreciation", q: "What is one thing I do that you secretly love?" },
+      { cat: "🌍 Future Goals", q: "Where do you see us in 5 years?" },
+      { cat: "😄 Funny", q: "What song best describes our relationship?" },
+      { cat: "📈 Growth", q: "What is one habit you'd like us to build together?" },
+      { cat: "💕 Romantic", q: "What's your favorite thing we've done together?" },
+      { cat: "🔮 Deep", q: "What is your love language and how can I show it better?" },
+      { cat: "🙏 Appreciation", q: "What is something you appreciate about your partner this week?" },
+    ];
+
+    const grid = document.getElementById('numGrid');
+    const qBox = document.getElementById('questionBox');
+    const qText = document.getElementById('questionText');
+    const answered = new Set([3, 7, 11]);
+
+    for (let i = 1; i <= 50; i++) {
+      const btn = document.createElement('div');
+      btn.className = 'num-btn' + (answered.has(i) ? ' answered' : '');
+      btn.textContent = i;
+      btn.addEventListener('click', () => {
+        const q = questions[(i - 1) % questions.length];
+        document.querySelector('.question-category').textContent = q.cat;
+        qText.textContent = `"${q.q}"`;
+        qBox.style.display = 'block';
+        qBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      });
+      grid.appendChild(btn);
+    }
+
+    // Mood cards
+    document.querySelectorAll('.mood-card').forEach(card => {
+      card.addEventListener('click', () => {
+        document.querySelectorAll('.mood-card').forEach(c => c.style.background = '');
+        card.style.background = 'var(--black)';
+        card.style.color = 'var(--white)';
+        card.style.borderColor = 'var(--black)';
+      });
+    });
+
+    // Intersection Observer for reveal animations
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // Days counter animation
+    let count = 0;
+    const target = 847;
+    const counter = document.getElementById('days-counter');
+    const interval = setInterval(() => {
+      count += 17;
+      if (count >= target) { count = target; clearInterval(interval); }
+      counter.textContent = count;
+    }, 16);
+  </script>
+</body>
+</html>
