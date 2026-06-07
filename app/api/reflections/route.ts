@@ -40,8 +40,3 @@ export async function POST(req: NextRequest) {
   return NextResponse.json(reflection);
 }
 
-export async function GET_WEEKS(req: NextRequest) {
-  await connectDB();
-  const weeks = await Reflection.distinct('week');
-  return NextResponse.json(weeks.sort().reverse());
-}
