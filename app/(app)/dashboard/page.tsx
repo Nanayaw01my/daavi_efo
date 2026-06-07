@@ -4,8 +4,8 @@ import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { differenceInDays, format } from 'date-fns';
 
-const START_DATE = new Date('2023-01-03');
-const ANNIVERSARY = new Date('2026-01-03');
+const START_DATE = new Date('2025-07-19');
+const ANNIVERSARY = new Date('2026-07-19');
 
 const MOODS: Record<string, string> = {
   happy: '😊', excited: '🤩', calm: '😌', grateful: '🙏', romantic: '🥰', tired: '😴', stressed: '😤',
