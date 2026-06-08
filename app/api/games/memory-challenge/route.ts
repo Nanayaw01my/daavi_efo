@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
+import { authOptions } from '@/lib/auth';
 import connectDB from '@/lib/mongodb';
 import MemoryChallenge from '@/lib/models/MemoryChallenge';
 import { MEMORY_CHALLENGE_QUESTIONS } from '@/lib/questions';
@@ -21,7 +22,7 @@ export async function GET() {
 }
 
 export async function PATCH(req: NextRequest) {
-  const session = await getServerSession();
+  const session = await getServerSession(authOptions);
   if (!session?.user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
   const { questionId, answer } = await req.json();
@@ -38,7 +39,7 @@ export async function PATCH(req: NextRequest) {
 }
 
 export async function DELETE() {
-  const session = await getServerSession();
+  const session = await getServerSession(authOptions);
   if (!session?.user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   await connectDB();
   await MemoryChallenge.updateMany({}, { $set: { efoAnswer: -1, daaviAnswer: -1 } });

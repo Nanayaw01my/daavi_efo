@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
+import { authOptions } from '@/lib/auth';
 import bcrypt from 'bcryptjs';
 import connectDB from '@/lib/mongodb';
 import User from '@/lib/models/User';
@@ -16,7 +17,7 @@ async function requireAdmin(session: any) {
 }
 
 export async function GET() {
-  const session = await getServerSession();
+  const session = await getServerSession(authOptions);
   if (!await requireAdmin(session)) return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
 
   await connectDB();
@@ -33,7 +34,7 @@ export async function GET() {
 }
 
 export async function POST(req: NextRequest) {
-  const session = await getServerSession();
+  const session = await getServerSession(authOptions);
   if (!await requireAdmin(session)) return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
 
   const { action, userId, newPassword, collection } = await req.json();
