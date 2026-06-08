@@ -5,7 +5,7 @@ export interface DailyTopic {
   title: string;
   subtitle: string;
   emoji: string;
-  color: string; // tailwind gradient classes
+  color: string; // CSS gradient for inline style
   questions: string[];
 }
 
@@ -17,7 +17,7 @@ export const DAILY_TOPICS: DailyTopic[] = [
     title: 'Love Languages & Emotional Connection',
     subtitle: 'Understanding how we give and receive love',
     emoji: '💗',
-    color: 'from-rose-500 to-pink-700',
+    color: 'linear-gradient(135deg, #f43f5e 0%, #be185d 100%)',
     questions: [
       'What is your primary love language, and has it changed since we started dating?',
       'Describe a specific moment when you felt most deeply loved by me — what made it so powerful?',
@@ -50,7 +50,7 @@ export const DAILY_TOPICS: DailyTopic[] = [
     title: 'Trust & Vulnerability',
     subtitle: 'Being fully known and fully safe',
     emoji: '🔐',
-    color: 'from-gray-900 to-black',
+    color: 'linear-gradient(135deg, #111827 0%, #000000 100%)',
     questions: [
       'What does trust mean to you at its deepest level — beyond just not lying?',
       'What\'s one fear about being fully known that you still carry, even with me?',
@@ -83,7 +83,7 @@ export const DAILY_TOPICS: DailyTopic[] = [
     title: 'Intimacy & Desire',
     subtitle: 'Closeness, attraction, and being wanted',
     emoji: '🌹',
-    color: 'from-rose-600 to-pink-900',
+    color: 'linear-gradient(135deg, #e11d48 0%, #831843 100%)',
     questions: [
       'What does physical intimacy mean to you beyond the physical — what emotional need does it meet?',
       'When do you feel most desired by me, and what does that feeling do for you emotionally?',
@@ -116,7 +116,7 @@ export const DAILY_TOPICS: DailyTopic[] = [
     title: 'Boundaries & Respect',
     subtitle: 'What we need to feel safe and honored',
     emoji: '🛡️',
-    color: 'from-gray-800 to-gray-950',
+    color: 'linear-gradient(135deg, #1f2937 0%, #030712 100%)',
     questions: [
       'What\'s your most important non-negotiable in a relationship — the one thing that, if crossed, breaks everything?',
       'How do you typically communicate when a boundary has been crossed — directly, quietly, or do you shut down?',
@@ -149,7 +149,7 @@ export const DAILY_TOPICS: DailyTopic[] = [
     title: 'Future & Life Goals',
     subtitle: 'The life we\'re building together',
     emoji: '🌅',
-    color: 'from-pink-600 to-rose-800',
+    color: 'linear-gradient(135deg, #db2777 0%, #9f1239 100%)',
     questions: [
       'Where do you see yourself in 5 years — and where do you see us?',
       'How do you think about children — do you want them, when, how many, and what kind of parents do you want to be?',
@@ -182,7 +182,7 @@ export const DAILY_TOPICS: DailyTopic[] = [
     title: 'Communication & Conflict',
     subtitle: 'Fighting for each other, not against each other',
     emoji: '🗣️',
-    color: 'from-gray-900 to-rose-900',
+    color: 'linear-gradient(135deg, #111827 0%, #4c0519 100%)',
     questions: [
       'What\'s your default communication style when you\'re upset — do you withdraw, attack, shut down, or something else?',
       'What do you need from me in the middle of a conflict — space, closeness, words, or silence?',
@@ -215,7 +215,7 @@ export const DAILY_TOPICS: DailyTopic[] = [
     title: 'Gratitude & Growth',
     subtitle: 'Who we\'re becoming together',
     emoji: '🌱',
-    color: 'from-rose-500 to-black',
+    color: 'linear-gradient(135deg, #f43f5e 0%, #000000 100%)',
     questions: [
       'How has this relationship changed you — who are you now that you couldn\'t have been without us?',
       'What are you most genuinely grateful for about me — not what I do, but who I am?',

@@ -115,7 +115,7 @@ export default function DailyTalkPage() {
   return (
     <div className="max-w-lg mx-auto px-4 py-5 space-y-5">
       {/* Header Card */}
-      <div className={`bg-gradient-to-br ${topic.color} rounded-3xl p-6 text-white relative overflow-hidden`}>
+      <div className="rounded-3xl p-6 text-white relative overflow-hidden" style={{ background: topic.color }}>
         <div className="absolute -top-8 -right-8 text-8xl opacity-10 rotate-12 select-none">
           {topic.emoji}
         </div>
