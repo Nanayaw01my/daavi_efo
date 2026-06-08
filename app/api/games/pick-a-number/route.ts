@@ -2,11 +2,16 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import connectDB from '@/lib/mongodb';
 import PickNumber from '@/lib/models/PickNumber';
+import { PICK_NUMBER_QUESTIONS } from '@/lib/questions';
 
 export const dynamic = 'force-dynamic';
 
 export async function GET() {
   await connectDB();
+  const count = await PickNumber.countDocuments();
+  if (count === 0) {
+    await PickNumber.insertMany(PICK_NUMBER_QUESTIONS);
+  }
   const questions = await PickNumber.find().sort({ number: 1 });
   return NextResponse.json(questions);
 }
