@@ -12,10 +12,10 @@ const MOODS: Record<string, string> = {
 };
 
 const QUICK_ACTIONS = [
+  { href: '/daily-talk', label: 'Daily Talk', icon: '💬', color: 'from-rose-500 to-black' },
   { href: '/games', label: 'Play Game', icon: '🎮', color: 'from-rose-400 to-pink-500' },
-  { href: '/reflections', label: 'Reflect', icon: '💌', color: 'from-violet-400 to-purple-500' },
-  { href: '/memories', label: 'Memory', icon: '📸', color: 'from-amber-400 to-orange-500' },
-  { href: '/notes', label: 'Note', icon: '📝', color: 'from-emerald-400 to-teal-500' },
+  { href: '/memories', label: 'Memory', icon: '📸', color: 'from-pink-500 to-rose-700' },
+  { href: '/notes', label: 'Note', icon: '📝', color: 'from-gray-800 to-black' },
 ];
 
 export default function DashboardPage() {
@@ -34,7 +34,7 @@ export default function DashboardPage() {
   return (
     <div className="px-4 py-5 max-w-lg mx-auto space-y-5">
       {/* Greeting */}
-      <div className="bg-gradient-to-br from-rose-500 via-pink-500 to-violet-600 rounded-3xl p-5 text-white relative overflow-hidden">
+      <div className="bg-gradient-to-br from-rose-500 via-pink-600 to-black rounded-3xl p-5 text-white relative overflow-hidden">
         <div className="absolute -top-6 -right-6 text-7xl opacity-20 rotate-12">❤️</div>
         <div className="absolute -bottom-4 -left-4 text-5xl opacity-10">💕</div>
         <p className="text-sm font-medium text-white/70 mb-1">Welcome back,</p>
@@ -54,7 +54,7 @@ export default function DashboardPage() {
           <div className="text-2xl mb-1">💍</div>
           <div className="text-3xl font-bold text-gray-900">{Math.max(0, daysToAnniv)}</div>
           <div className="text-xs text-gray-500 mt-0.5 font-medium">Days to Anniversary</div>
-          <div className="text-xs text-violet-400 mt-1">{format(ANNIVERSARY, 'MMM d, yyyy')}</div>
+          <div className="text-xs text-pink-500 mt-1">{format(ANNIVERSARY, 'MMM d, yyyy')}</div>
         </div>
       </div>
 
@@ -80,7 +80,7 @@ export default function DashboardPage() {
           </div>
         )}
         {!myMood && (
-          <Link href="/mood" className="mt-3 block text-center text-xs text-violet-500 font-semibold bg-violet-50 rounded-xl py-2">
+          <Link href="/mood" className="mt-3 block text-center text-xs text-rose-500 font-semibold bg-rose-50 rounded-xl py-2">
             Log your mood today ✨
           </Link>
         )}
@@ -107,7 +107,7 @@ export default function DashboardPage() {
           {[
             { label: 'Memories', value: stats.memoryCount, icon: '📸', color: 'text-amber-500' },
             { label: 'Games', value: stats.answeredGames, icon: '🎮', color: 'text-rose-500' },
-            { label: 'Journals', value: stats.reflectionCount, icon: '💌', color: 'text-violet-500' },
+            { label: 'Journals', value: stats.reflectionCount, icon: '💌', color: 'text-pink-500' },
           ].map(s => (
             <div key={s.label} className="bg-white rounded-2xl p-3 border border-gray-100 shadow-sm text-center card-hover">
               <div className="text-xl mb-1">{s.icon}</div>
@@ -126,7 +126,7 @@ export default function DashboardPage() {
             <Link href="/memories" className="text-xs text-rose-500 font-semibold">See All →</Link>
           </div>
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 bg-gradient-to-br from-rose-100 to-violet-100 rounded-xl flex items-center justify-center text-xl">📸</div>
+            <div className="w-12 h-12 bg-gradient-to-br from-rose-100 to-pink-100 rounded-xl flex items-center justify-center text-xl">📸</div>
             <div>
               <div className="font-semibold text-gray-800 text-sm">{stats.recentMemory.title}</div>
               <div className="text-xs text-gray-500">{format(new Date(stats.recentMemory.date), 'MMM d, yyyy')} · by {stats.recentMemory.uploadedByDisplay}</div>

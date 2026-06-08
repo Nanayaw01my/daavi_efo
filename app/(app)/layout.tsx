@@ -2,7 +2,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useSession, signOut } from 'next-auth/react';
-import { Home, Gamepad2, MessageSquare, Image, Smile, BookOpen, Settings, LogOut } from 'lucide-react';
+import { Home, Gamepad2, MessageSquare, Image, Smile, BookOpen, Settings, LogOut, MessageCircleHeart } from 'lucide-react';
 import { useState } from 'react';
 
 const NAV = [
@@ -11,6 +11,7 @@ const NAV = [
   { href: '/notes', icon: MessageSquare, label: 'Notes' },
   { href: '/memories', icon: Image, label: 'Memories' },
   { href: '/mood', icon: Smile, label: 'Mood' },
+  { href: '/daily-talk', icon: MessageCircleHeart, label: 'Daily' },
   { href: '/reflections', icon: BookOpen, label: 'Journal' },
 ];
 
@@ -33,7 +34,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
             {session?.user?.name || '—'}
           </span>
           {role === 'admin' && (
-            <Link href="/admin" className="text-xs font-bold text-violet-600 bg-violet-100 px-3 py-1 rounded-full">Admin</Link>
+            <Link href="/admin" className="text-xs font-bold text-white bg-black px-3 py-1 rounded-full">Admin</Link>
           )}
           <button onClick={() => signOut({ callbackUrl: '/' })} className="p-2 rounded-full hover:bg-gray-100 transition-all">
             <LogOut size={16} className="text-gray-500" />
@@ -54,7 +55,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
             return (
               <Link key={href} href={href} className={`flex flex-col items-center gap-0.5 px-3 py-2 rounded-xl transition-all ${active ? 'text-rose-500' : 'text-gray-400'}`}>
                 <Icon size={22} strokeWidth={active ? 2.5 : 1.8} />
-                <span className={`text-[10px] font-${active ? 'bold' : 'medium'}`}>{label}</span>
+                <span className={active ? 'text-[10px] font-bold' : 'text-[10px] font-medium'}>{label}</span>
               </Link>
             );
           })}

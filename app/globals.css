@@ -7,7 +7,7 @@
 :root {
   --primary: #f43f5e;
   --primary-dark: #e11d48;
-  --secondary: #8b5cf6;
+  --secondary: #ec4899;
   --gold: #f59e0b;
   --bg: #fafafa;
   --card: #ffffff;
@@ -32,7 +32,7 @@ body {
 
 /* Gradient text */
 .gradient-text {
-  background: linear-gradient(135deg, #f43f5e, #8b5cf6);
+  background: linear-gradient(135deg, #f43f5e, #000000);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -105,6 +105,7 @@ body {
 
 .animate-fade-in { animation: fadeIn 0.4s ease-out both; }
 .animate-scale-in { animation: scaleIn 0.35s ease-out both; }
+.animate-heartbeat { animation: heartPop 1.5s ease-in-out infinite; }
 
 /* Delay utilities */
 .delay-100 { animation-delay: 100ms; }
@@ -131,7 +132,7 @@ input:focus, textarea:focus, select:focus {
 
 /* Hero gradient */
 .hero-gradient {
-  background: linear-gradient(135deg, #f43f5e 0%, #ec4899 40%, #8b5cf6 100%);
+  background: linear-gradient(135deg, #f43f5e 0%, #ec4899 50%, #000000 100%);
 }
 
 .hero-gradient-2 {
