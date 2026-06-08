@@ -48,13 +48,13 @@ export default function DashboardPage() {
           <div className="text-2xl mb-1">📅</div>
           <div className="text-3xl font-bold text-gray-900">{daysTogether}</div>
           <div className="text-xs text-gray-500 mt-0.5 font-medium">Days Together</div>
-          <div className="text-xs text-rose-400 mt-1">Since Jan 3, 2023</div>
+          <div className="text-xs text-rose-400 mt-1">Since {format(START_DATE, 'MMM d, yyyy')}</div>
         </div>
         <div className="bg-white rounded-2xl p-4 border border-gray-100 shadow-sm card-hover">
           <div className="text-2xl mb-1">💍</div>
           <div className="text-3xl font-bold text-gray-900">{Math.max(0, daysToAnniv)}</div>
           <div className="text-xs text-gray-500 mt-0.5 font-medium">Days to Anniversary</div>
-          <div className="text-xs text-violet-400 mt-1">Jan 3, 2026</div>
+          <div className="text-xs text-violet-400 mt-1">{format(ANNIVERSARY, 'MMM d, yyyy')}</div>
         </div>
       </div>
 
