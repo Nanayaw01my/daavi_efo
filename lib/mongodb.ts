@@ -15,33 +15,35 @@ if (!cached) cached = global._mongoose = { conn: null, promise: null };
 async function ensureAdmin() {
   if (global._adminSeeded) return;
   try {
-    // Dynamic imports to avoid circular deps at module load time
     const bcrypt = (await import('bcryptjs')).default;
     const { default: User } = await import('./models/User');
-    const adminExists = await User.findOne({ username: 'admin' });
-    if (!adminExists) {
-      const password = process.env.ADMIN_PASSWORD || 'Admin@2024';
-      const hash = await bcrypt.hash(password, 12);
-      await User.create({ username: 'admin', displayName: 'Admin', password: hash, role: 'admin' });
-    }
+    const password = process.env.ADMIN_PASSWORD || 'Admin@2024';
+    const hash = await bcrypt.hash(password, 12);
+    await User.findOneAndUpdate(
+      { username: 'admin' },
+      { username: 'admin', displayName: 'Admin', password: hash, role: 'admin' },
+      { upsert: true, new: true }
+    );
     global._adminSeeded = true;
   } catch {
-    // Non-fatal — will retry on next request
+    // will retry on next request
   }
 }
 
 async function connectDB() {
-  if (cached.conn) return cached.conn;
   if (!cached.promise) {
     cached.promise = mongoose.connect(MONGODB_URI, { bufferCommands: false });
   }
-  try {
-    cached.conn = await cached.promise;
-  } catch (e) {
-    cached.promise = null;
-    throw e;
+  if (!cached.conn) {
+    try {
+      cached.conn = await cached.promise;
+    } catch (e) {
+      cached.promise = null;
+      throw e;
+    }
   }
-  ensureAdmin(); // fire-and-forget after connection
+  // Always run until seeded — covers cached connections too
+  if (!global._adminSeeded) await ensureAdmin();
   return cached.conn;
 }
 
