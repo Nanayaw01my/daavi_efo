@@ -3,6 +3,7 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import connectDB from '@/lib/mongodb';
 import ChatMessage from '@/lib/models/ChatMessage';
+import { sendPushToUser } from '@/lib/push';
 
 export const dynamic = 'force-dynamic';
 
@@ -23,6 +24,17 @@ export async function POST(req: NextRequest) {
   const senderDisplay = username === 'efo' ? 'Efo' : username === 'daavi' ? 'Daavi' : 'Admin';
   await connectDB();
   const msg = await ChatMessage.create({ sender: username, senderDisplay, content: content.trim() });
+
+  // Notify the partner
+  const partner = username === 'efo' ? 'daavi' : 'efo';
+  const preview = content.trim().length > 60 ? content.trim().slice(0, 60) + '…' : content.trim();
+  sendPushToUser(partner, {
+    title: `${senderDisplay} 💬`,
+    body: preview,
+    url: '/chat',
+    tag: 'chat',
+  });
+
   return NextResponse.json(msg);
 }
 

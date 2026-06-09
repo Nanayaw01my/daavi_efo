@@ -3,6 +3,9 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import connectDB from '@/lib/mongodb';
 import TruthDareRound from '@/lib/models/TruthDareRound';
+import { sendPushToUser } from '@/lib/push';
+
+function dn(u: string) { return u === 'efo' ? 'Efo' : 'Daavi'; }
 
 export const dynamic = 'force-dynamic';
 
@@ -33,6 +36,12 @@ export async function POST(req: NextRequest) {
       responder,
       status: 'pending',
     });
+    sendPushToUser(responder, {
+      title: 'Truth or Dare 🎭',
+      body: `${dn(username)} is challenging you — Truth or Dare?`,
+      url: '/games/truth-or-dare',
+      tag: 'tod',
+    });
     return NextResponse.json(round);
   }
 
@@ -44,6 +53,12 @@ export async function POST(req: NextRequest) {
     round.type = body.type as 'truth' | 'dare';
     round.status = 'composing';
     await round.save();
+    sendPushToUser(round.asker, {
+      title: 'Truth or Dare 🎭',
+      body: `${dn(username)} chose ${round.type === 'truth' ? '🔮 Truth' : '🔥 Dare'} — write your question!`,
+      url: '/games/truth-or-dare',
+      tag: 'tod',
+    });
     return NextResponse.json(round);
   }
 
@@ -57,6 +72,12 @@ export async function POST(req: NextRequest) {
     round.prompt = prompt;
     round.status = 'answering';
     await round.save();
+    sendPushToUser(round.responder, {
+      title: `${dn(round.asker)} asks: ${round.type === 'truth' ? '🔮 Truth' : '🔥 Dare'}`,
+      body: prompt,
+      url: '/games/truth-or-dare',
+      tag: 'tod',
+    });
     return NextResponse.json(round);
   }
 
@@ -74,6 +95,12 @@ export async function POST(req: NextRequest) {
       asker: round.responder,
       responder: round.asker,
       status: 'pending',
+    });
+    sendPushToUser(round.asker, {
+      title: 'Truth or Dare 🎭',
+      body: `${dn(round.responder)} answered! Now it's your turn to be challenged 🎴`,
+      url: '/games/truth-or-dare',
+      tag: 'tod',
     });
     return NextResponse.json({ completedRound: round, nextRound });
   }
