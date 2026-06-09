@@ -2,6 +2,11 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useSession } from 'next-auth/react';
 import toast from 'react-hot-toast';
+import { TRUTH_PROMPTS, DARE_PROMPTS } from '@/lib/questions';
+
+function randomFrom(arr: string[]) {
+  return arr[Math.floor(Math.random() * arr.length)];
+}
 
 interface Round {
   _id: string;
@@ -32,6 +37,10 @@ export default function TruthOrDarePage() {
   const [loading, setLoading] = useState(true);
   const [responseText, setResponseText] = useState('');
   const [submitting, setSubmitting] = useState(false);
+
+  // Compose step: asker edits the question before sending
+  const [composingType, setComposingType] = useState<'truth' | 'dare' | null>(null);
+  const [composingPrompt, setComposingPrompt] = useState('');
 
   const fetchState = useCallback(async () => {
     try {
@@ -78,8 +87,21 @@ export default function TruthOrDarePage() {
     await doAction({ action: 'start' });
   }
 
-  async function handleChoose(type: 'truth' | 'dare') {
-    await doAction({ action: 'choose', type });
+  function handleChoose(type: 'truth' | 'dare') {
+    // Pick a suggested question client-side so the asker can edit before sending
+    const suggested = type === 'truth' ? randomFrom(TRUTH_PROMPTS) : randomFrom(DARE_PROMPTS);
+    setComposingType(type);
+    setComposingPrompt(suggested);
+  }
+
+  async function handleSendQuestion() {
+    if (!composingPrompt.trim() || !composingType) {
+      toast.error('Write a question first!');
+      return;
+    }
+    await doAction({ action: 'choose', type: composingType, customPrompt: composingPrompt.trim() });
+    setComposingType(null);
+    setComposingPrompt('');
   }
 
   async function handleRespond() {
@@ -151,8 +173,8 @@ export default function TruthOrDarePage() {
         </div>
       )}
 
-      {/* ── STATE 2: You're the ASKER, status='choosing' ── */}
-      {current?.status === 'choosing' && isAsker && (
+      {/* ── STATE 2a: You're the ASKER, picking type ── */}
+      {current?.status === 'choosing' && isAsker && !composingType && (
         <div className="text-center">
           <div className="mb-4">
             <span className="inline-block bg-black text-white text-xs font-bold px-4 py-1.5 rounded-full tracking-wider uppercase">
@@ -183,6 +205,50 @@ export default function TruthOrDarePage() {
             >
               <div className="text-4xl mb-2">🔥</div>
               Dare
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* ── STATE 2b: ASKER composes their question before sending ── */}
+      {current?.status === 'choosing' && isAsker && composingType && (
+        <div>
+          <div className="mb-4 flex justify-center">
+            <span className={`inline-block text-xs font-bold px-4 py-1.5 rounded-full tracking-wider uppercase ${composingType === 'truth' ? 'bg-gray-900 text-white' : 'bg-rose-500 text-white'}`}>
+              {composingType === 'truth' ? '🔮 Truth' : '🔥 Dare'} for {responderDisplay}
+            </span>
+          </div>
+
+          <div className={`bg-white rounded-3xl border shadow-xl p-6 mb-5 ${composingType === 'truth' ? 'border-gray-200 shadow-gray-100' : 'border-rose-100 shadow-rose-100'}`}>
+            <div className="text-5xl text-center mb-3">
+              {composingType === 'truth' ? '🔮' : '🔥'}
+            </div>
+            <p className="text-center text-xs text-gray-400 mb-4 font-medium">
+              A question is suggested below — edit it or write your own!
+            </p>
+            <textarea
+              value={composingPrompt}
+              onChange={e => setComposingPrompt(e.target.value)}
+              rows={4}
+              placeholder={composingType === 'truth' ? 'Write your truth question...' : 'Write your dare...'}
+              className={`w-full px-4 py-3 rounded-xl border text-gray-900 text-sm resize-none transition-all focus:outline-none focus:ring-2 font-playfair italic ${composingType === 'truth' ? 'border-gray-200 focus:border-gray-400 focus:ring-gray-100' : 'border-rose-200 focus:border-rose-400 focus:ring-rose-100'}`}
+            />
+          </div>
+
+          <div className="flex gap-3">
+            <button
+              onClick={() => { setComposingType(null); setComposingPrompt(''); }}
+              disabled={submitting}
+              className="flex-1 py-3.5 rounded-2xl border border-gray-200 text-gray-500 font-semibold text-sm active:scale-95 transition-all disabled:opacity-50"
+            >
+              ← Back
+            </button>
+            <button
+              onClick={handleSendQuestion}
+              disabled={submitting || !composingPrompt.trim()}
+              className={`flex-[2] py-3.5 rounded-2xl text-white font-bold text-sm shadow-lg active:scale-95 transition-all disabled:opacity-50 ${composingType === 'truth' ? 'bg-gradient-to-r from-gray-900 to-gray-700 shadow-gray-300' : 'bg-gradient-to-r from-rose-500 to-pink-500 shadow-rose-200'}`}
+            >
+              Send to {responderDisplay} →
             </button>
           </div>
         </div>

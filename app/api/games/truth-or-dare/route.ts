@@ -42,7 +42,7 @@ export async function POST(req: NextRequest) {
     if (!round) return NextResponse.json({ error: 'No active round' }, { status: 404 });
     if (round.asker !== username) return NextResponse.json({ error: 'Not your turn to choose' }, { status: 403 });
     const type = body.type as 'truth' | 'dare';
-    const prompt = type === 'truth' ? randomFrom(TRUTH_PROMPTS) : randomFrom(DARE_PROMPTS);
+    const prompt = (body.customPrompt as string | undefined)?.trim() || (type === 'truth' ? randomFrom(TRUTH_PROMPTS) : randomFrom(DARE_PROMPTS));
     round.type = type;
     round.prompt = prompt;
     round.status = 'answering';
