@@ -1,8 +1,10 @@
 'use client';
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { useSession } from 'next-auth/react';
 import toast from 'react-hot-toast';
+import { Send, MessageCircle, ChevronDown } from 'lucide-react';
 import { TRUTH_PROMPTS, DARE_PROMPTS } from '@/lib/questions';
+import { format } from 'date-fns';
 
 function randomFrom(arr: string[]) {
   return arr[Math.floor(Math.random() * arr.length)];
@@ -16,7 +18,15 @@ interface Round {
   type: 'truth' | 'dare' | null;
   prompt: string | null;
   response: string;
-  status: 'choosing' | 'answering' | 'done';
+  status: 'pending' | 'composing' | 'answering' | 'done';
+  createdAt: string;
+}
+
+interface ChatMsg {
+  _id: string;
+  sender: string;
+  senderDisplay: string;
+  content: string;
   createdAt: string;
 }
 
@@ -24,9 +34,116 @@ function displayName(username: string) {
   return username === 'efo' ? 'Efo' : 'Daavi';
 }
 
-function partnerOf(username: string) {
-  return username === 'efo' ? 'Daavi' : 'Efo';
+// ─── Mini Chat ───────────────────────────────────────────────────────────────
+
+function MiniChat({ username }: { username: string }) {
+  const [open, setOpen] = useState(false);
+  const [messages, setMessages] = useState<ChatMsg[]>([]);
+  const [input, setInput] = useState('');
+  const [sending, setSending] = useState(false);
+  const bottomRef = useRef<HTMLDivElement>(null);
+
+  const fetchMessages = useCallback(async () => {
+    try {
+      const res = await fetch('/api/chat');
+      if (!res.ok) return;
+      const data: ChatMsg[] = await res.json();
+      setMessages(data.slice(-30)); // show last 30
+    } catch { /* silent */ }
+  }, []);
+
+  useEffect(() => {
+    fetchMessages();
+    const interval = setInterval(fetchMessages, 4000);
+    return () => clearInterval(interval);
+  }, [fetchMessages]);
+
+  useEffect(() => {
+    if (open) {
+      setTimeout(() => bottomRef.current?.scrollIntoView({ behavior: 'smooth' }), 100);
+    }
+  }, [open, messages.length]);
+
+  async function send() {
+    if (!input.trim() || sending) return;
+    const content = input.trim();
+    setInput('');
+    setSending(true);
+    try {
+      await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ content }),
+      });
+      await fetchMessages();
+    } catch { /* silent */ } finally {
+      setSending(false);
+    }
+  }
+
+  return (
+    <div className="fixed bottom-[72px] right-3 z-50">
+      {/* Chat panel */}
+      {open && (
+        <div className="absolute bottom-14 right-0 w-72 bg-white rounded-2xl shadow-2xl border border-gray-200 flex flex-col overflow-hidden" style={{ maxHeight: 360 }}>
+          <div className="px-4 py-2.5 border-b border-gray-100 flex items-center justify-between bg-gray-50">
+            <span className="text-xs font-bold text-gray-700 uppercase tracking-wider">Chat</span>
+            <button onClick={() => setOpen(false)} className="p-1 rounded-full hover:bg-gray-200 transition-all">
+              <ChevronDown size={14} className="text-gray-500" />
+            </button>
+          </div>
+
+          <div className="flex-1 overflow-y-auto px-3 py-2 space-y-1.5" style={{ minHeight: 200 }}>
+            {messages.length === 0 ? (
+              <p className="text-center text-xs text-gray-300 py-6">No messages yet</p>
+            ) : (
+              messages.map(msg => {
+                const isMine = msg.sender === username;
+                return (
+                  <div key={msg._id} className={`flex ${isMine ? 'justify-end' : 'justify-start'}`}>
+                    <div className={`px-3 py-1.5 rounded-xl text-xs max-w-[80%] leading-relaxed ${
+                      isMine ? 'bg-rose-500 text-white' : 'bg-gray-100 text-gray-800'
+                    }`}>
+                      {msg.content}
+                    </div>
+                  </div>
+                );
+              })
+            )}
+            <div ref={bottomRef} />
+          </div>
+
+          <div className="border-t border-gray-100 px-2 py-2 flex gap-1.5">
+            <input
+              value={input}
+              onChange={e => setInput(e.target.value)}
+              onKeyDown={e => { if (e.key === 'Enter') send(); }}
+              placeholder="Type..."
+              className="flex-1 text-xs rounded-xl border border-gray-200 bg-gray-50 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-rose-200"
+            />
+            <button
+              onClick={send}
+              disabled={!input.trim() || sending}
+              className="w-8 h-8 rounded-full bg-rose-500 text-white flex items-center justify-center flex-shrink-0 disabled:opacity-40"
+            >
+              <Send size={12} />
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Toggle bubble */}
+      <button
+        onClick={() => setOpen(v => !v)}
+        className="w-12 h-12 rounded-full bg-rose-500 text-white flex items-center justify-center shadow-lg active:scale-90 transition-all"
+      >
+        <MessageCircle size={20} />
+      </button>
+    </div>
+  );
 }
+
+// ─── Main Page ───────────────────────────────────────────────────────────────
 
 export default function TruthOrDarePage() {
   const { data: session } = useSession();
@@ -35,12 +152,9 @@ export default function TruthOrDarePage() {
   const [current, setCurrent] = useState<Round | null>(null);
   const [history, setHistory] = useState<Round[]>([]);
   const [loading, setLoading] = useState(true);
+  const [questionText, setQuestionText] = useState('');
   const [responseText, setResponseText] = useState('');
   const [submitting, setSubmitting] = useState(false);
-
-  // Compose step: asker edits the question before sending
-  const [composingType, setComposingType] = useState<'truth' | 'dare' | null>(null);
-  const [composingPrompt, setComposingPrompt] = useState('');
 
   const fetchState = useCallback(async () => {
     try {
@@ -49,9 +163,7 @@ export default function TruthOrDarePage() {
       const data = await res.json();
       setCurrent(data.current ?? null);
       setHistory(data.history ?? []);
-    } catch {
-      // silent
-    } finally {
+    } catch { /* silent */ } finally {
       setLoading(false);
     }
   }, []);
@@ -62,6 +174,18 @@ export default function TruthOrDarePage() {
     return () => clearInterval(interval);
   }, [fetchState]);
 
+  // Pre-fill question textarea when composing step becomes active
+  useEffect(() => {
+    if (current?.status === 'composing' && current.type && !questionText) {
+      const suggested = current.type === 'truth' ? randomFrom(TRUTH_PROMPTS) : randomFrom(DARE_PROMPTS);
+      setQuestionText(suggested);
+    }
+    if (current?.status !== 'composing') {
+      setQuestionText('');
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [current?.status, current?.type]);
+
   async function doAction(body: object) {
     setSubmitting(true);
     try {
@@ -71,47 +195,13 @@ export default function TruthOrDarePage() {
         body: JSON.stringify(body),
       });
       const data = await res.json();
-      if (!res.ok) {
-        toast.error(data.error || 'Something went wrong');
-        return;
-      }
+      if (!res.ok) { toast.error(data.error || 'Something went wrong'); return; }
       await fetchState();
     } catch {
       toast.error('Network error');
     } finally {
       setSubmitting(false);
     }
-  }
-
-  async function handleStart() {
-    await doAction({ action: 'start' });
-  }
-
-  function handleChoose(type: 'truth' | 'dare') {
-    // Pick a suggested question client-side so the asker can edit before sending
-    const suggested = type === 'truth' ? randomFrom(TRUTH_PROMPTS) : randomFrom(DARE_PROMPTS);
-    setComposingType(type);
-    setComposingPrompt(suggested);
-  }
-
-  async function handleSendQuestion() {
-    if (!composingPrompt.trim() || !composingType) {
-      toast.error('Write a question first!');
-      return;
-    }
-    await doAction({ action: 'choose', type: composingType, customPrompt: composingPrompt.trim() });
-    setComposingType(null);
-    setComposingPrompt('');
-  }
-
-  async function handleRespond() {
-    if (!responseText.trim()) {
-      toast.error('Write your response first!');
-      return;
-    }
-    await doAction({ action: 'respond', response: responseText.trim() });
-    setResponseText('');
-    toast.success('Response sent! 🎉');
   }
 
   async function handleReset() {
@@ -122,11 +212,7 @@ export default function TruthOrDarePage() {
       setCurrent(null);
       setHistory([]);
       toast.success('Game reset!');
-    } catch {
-      toast.error('Failed to reset');
-    } finally {
-      setSubmitting(false);
-    }
+    } catch { toast.error('Failed to reset'); } finally { setSubmitting(false); }
   }
 
   if (loading || !username) {
@@ -139,13 +225,14 @@ export default function TruthOrDarePage() {
 
   const isAsker = current?.asker === username;
   const isResponder = current?.responder === username;
-  const partner = partnerOf(username);
+  const partner = username === 'efo' ? 'Daavi' : 'Efo';
   const myDisplay = displayName(username);
   const askerDisplay = current ? displayName(current.asker) : '';
   const responderDisplay = current ? displayName(current.responder) : '';
 
   return (
-    <div className="px-4 py-5 max-w-lg mx-auto pb-10">
+    <div className="px-4 py-5 max-w-lg mx-auto pb-28">
+
       {/* Header */}
       <div className="mb-6">
         <div className="inline-block bg-rose-100 text-rose-600 text-xs font-bold px-3 py-1 rounded-full mb-2 tracking-wider uppercase">
@@ -161,10 +248,10 @@ export default function TruthOrDarePage() {
           <div className="text-7xl mb-6">🎴</div>
           <h2 className="text-xl font-bold text-gray-900 mb-2">No game in progress</h2>
           <p className="text-gray-500 text-sm mb-8">
-            Start a game — you'll be asking {partner} first!
+            Start the game — you&apos;ll challenge {partner} first!
           </p>
           <button
-            onClick={handleStart}
+            onClick={() => doAction({ action: 'start' })}
             disabled={submitting}
             className="px-8 py-4 bg-gradient-to-r from-gray-900 to-gray-700 text-white rounded-2xl font-bold text-lg shadow-xl active:scale-95 transition-all disabled:opacity-50"
           >
@@ -173,25 +260,42 @@ export default function TruthOrDarePage() {
         </div>
       )}
 
-      {/* ── STATE 2a: You're the ASKER, picking type ── */}
-      {current?.status === 'choosing' && isAsker && !composingType && (
+      {/* ── STATE 2 — ASKER: challenge sent, waiting for partner to pick ── */}
+      {current?.status === 'pending' && isAsker && (
+        <div className="text-center py-10">
+          <div className="text-7xl mb-6 animate-bounce">📣</div>
+          <h2 className="text-xl font-bold text-gray-900 mb-2">
+            You challenged {responderDisplay}!
+          </h2>
+          <p className="text-gray-500 text-sm mb-6">
+            Waiting for {responderDisplay} to pick Truth or Dare...
+          </p>
+          <div className="flex justify-center gap-1.5 mt-4">
+            <span className="w-2 h-2 bg-rose-400 rounded-full animate-bounce [animation-delay:0ms]" />
+            <span className="w-2 h-2 bg-rose-400 rounded-full animate-bounce [animation-delay:150ms]" />
+            <span className="w-2 h-2 bg-rose-400 rounded-full animate-bounce [animation-delay:300ms]" />
+          </div>
+        </div>
+      )}
+
+      {/* ── STATE 2 — RESPONDER: pick Truth or Dare ── */}
+      {current?.status === 'pending' && isResponder && (
         <div className="text-center">
           <div className="mb-4">
             <span className="inline-block bg-black text-white text-xs font-bold px-4 py-1.5 rounded-full tracking-wider uppercase">
-              {myDisplay}'s Turn to Ask
+              {askerDisplay} is challenging you!
             </span>
           </div>
-          <div className="text-5xl mb-4">🤔</div>
+          <div className="text-5xl mb-4">🎴</div>
           <h2 className="text-xl font-bold text-gray-900 mb-1">
-            Ask {responderDisplay}: Truth or Dare?
+            {askerDisplay} asks: Truth or Dare?
           </h2>
           <p className="text-gray-500 text-sm mb-8">
-            Choose what you want to give them — Round {current.roundNumber}
+            Pick your card — Round {current.roundNumber}
           </p>
-
           <div className="grid grid-cols-2 gap-4">
             <button
-              onClick={() => handleChoose('truth')}
+              onClick={() => doAction({ action: 'pick', type: 'truth' })}
               disabled={submitting}
               className="py-10 bg-gradient-to-br from-gray-900 to-gray-700 text-white rounded-3xl font-bold text-xl shadow-xl shadow-gray-300 active:scale-95 transition-all disabled:opacity-50"
             >
@@ -199,7 +303,7 @@ export default function TruthOrDarePage() {
               Truth
             </button>
             <button
-              onClick={() => handleChoose('dare')}
+              onClick={() => doAction({ action: 'pick', type: 'dare' })}
               disabled={submitting}
               className="py-10 bg-gradient-to-br from-rose-500 to-pink-600 text-white rounded-3xl font-bold text-xl shadow-xl shadow-rose-200 active:scale-95 transition-all disabled:opacity-50"
             >
@@ -210,63 +314,56 @@ export default function TruthOrDarePage() {
         </div>
       )}
 
-      {/* ── STATE 2b: ASKER composes their question before sending ── */}
-      {current?.status === 'choosing' && isAsker && composingType && (
+      {/* ── STATE 3 — ASKER: partner picked, write your question ── */}
+      {current?.status === 'composing' && isAsker && (
         <div>
           <div className="mb-4 flex justify-center">
-            <span className={`inline-block text-xs font-bold px-4 py-1.5 rounded-full tracking-wider uppercase ${composingType === 'truth' ? 'bg-gray-900 text-white' : 'bg-rose-500 text-white'}`}>
-              {composingType === 'truth' ? '🔮 Truth' : '🔥 Dare'} for {responderDisplay}
+            <span className={`inline-block text-xs font-bold px-4 py-1.5 rounded-full tracking-wider uppercase ${current.type === 'truth' ? 'bg-gray-900 text-white' : 'bg-rose-500 text-white'}`}>
+              {responderDisplay} chose {current.type === 'truth' ? '🔮 Truth' : '🔥 Dare'}!
             </span>
           </div>
 
-          <div className={`bg-white rounded-3xl border shadow-xl p-6 mb-5 ${composingType === 'truth' ? 'border-gray-200 shadow-gray-100' : 'border-rose-100 shadow-rose-100'}`}>
+          <div className={`bg-white rounded-3xl border shadow-xl p-6 mb-5 ${current.type === 'truth' ? 'border-gray-200 shadow-gray-100' : 'border-rose-100 shadow-rose-100'}`}>
             <div className="text-5xl text-center mb-3">
-              {composingType === 'truth' ? '🔮' : '🔥'}
+              {current.type === 'truth' ? '🔮' : '🔥'}
             </div>
-            <p className="text-center text-xs text-gray-400 mb-4 font-medium">
-              A question is suggested below — edit it or write your own!
+            <p className="text-center text-sm text-gray-500 mb-4">
+              Write your {current.type} question for {responderDisplay}
             </p>
             <textarea
-              value={composingPrompt}
-              onChange={e => setComposingPrompt(e.target.value)}
+              value={questionText}
+              onChange={e => setQuestionText(e.target.value)}
               rows={4}
-              placeholder={composingType === 'truth' ? 'Write your truth question...' : 'Write your dare...'}
-              className={`w-full px-4 py-3 rounded-xl border text-gray-900 text-sm resize-none transition-all focus:outline-none focus:ring-2 font-playfair italic ${composingType === 'truth' ? 'border-gray-200 focus:border-gray-400 focus:ring-gray-100' : 'border-rose-200 focus:border-rose-400 focus:ring-rose-100'}`}
+              placeholder={current.type === 'truth' ? 'What do you want to ask...' : 'What do you dare them to do...'}
+              className={`w-full px-4 py-3 rounded-xl border text-gray-900 text-sm resize-none transition-all focus:outline-none focus:ring-2 font-playfair italic ${current.type === 'truth' ? 'border-gray-200 focus:border-gray-400 focus:ring-gray-100' : 'border-rose-200 focus:border-rose-400 focus:ring-rose-100'}`}
             />
+            <p className="text-[11px] text-gray-400 mt-2 text-center">A suggestion is pre-filled — feel free to change it completely!</p>
           </div>
 
-          <div className="flex gap-3">
-            <button
-              onClick={() => { setComposingType(null); setComposingPrompt(''); }}
-              disabled={submitting}
-              className="flex-1 py-3.5 rounded-2xl border border-gray-200 text-gray-500 font-semibold text-sm active:scale-95 transition-all disabled:opacity-50"
-            >
-              ← Back
-            </button>
-            <button
-              onClick={handleSendQuestion}
-              disabled={submitting || !composingPrompt.trim()}
-              className={`flex-[2] py-3.5 rounded-2xl text-white font-bold text-sm shadow-lg active:scale-95 transition-all disabled:opacity-50 ${composingType === 'truth' ? 'bg-gradient-to-r from-gray-900 to-gray-700 shadow-gray-300' : 'bg-gradient-to-r from-rose-500 to-pink-500 shadow-rose-200'}`}
-            >
-              Send to {responderDisplay} →
-            </button>
-          </div>
+          <button
+            onClick={() => doAction({ action: 'send', prompt: questionText })}
+            disabled={submitting || !questionText.trim()}
+            className={`w-full py-4 rounded-2xl text-white font-bold text-base shadow-lg active:scale-95 transition-all disabled:opacity-50 ${current.type === 'truth' ? 'bg-gradient-to-r from-gray-900 to-gray-700 shadow-gray-300' : 'bg-gradient-to-r from-rose-500 to-pink-500 shadow-rose-200'}`}
+          >
+            Send to {responderDisplay} 💕
+          </button>
         </div>
       )}
 
-      {/* ── STATE 3: You're the RESPONDER, status='choosing' ── */}
-      {current?.status === 'choosing' && isResponder && (
+      {/* ── STATE 3 — RESPONDER: waiting for asker to write the question ── */}
+      {current?.status === 'composing' && isResponder && (
         <div className="text-center py-10">
-          <div className="relative inline-block mb-6">
-            <div className="text-7xl animate-bounce">⏳</div>
+          <div className="mb-3">
+            <span className={`inline-block text-xs font-bold px-4 py-1.5 rounded-full tracking-wider uppercase ${current.type === 'truth' ? 'bg-gray-900 text-white' : 'bg-rose-500 text-white'}`}>
+              You chose {current.type === 'truth' ? '🔮 Truth' : '🔥 Dare'}
+            </span>
           </div>
+          <div className="text-6xl mb-5 animate-pulse">✍️</div>
           <h2 className="text-xl font-bold text-gray-900 mb-2">
-            Waiting for {askerDisplay}...
+            Waiting for {askerDisplay}&apos;s question...
           </h2>
-          <p className="text-gray-500 text-sm">
-            {askerDisplay} is deciding what to ask you — Truth or Dare?
-          </p>
-          <div className="mt-6 flex justify-center gap-1.5">
+          <p className="text-gray-500 text-sm">{askerDisplay} is writing their question for you</p>
+          <div className="flex justify-center gap-1.5 mt-6">
             <span className="w-2 h-2 bg-rose-400 rounded-full animate-bounce [animation-delay:0ms]" />
             <span className="w-2 h-2 bg-rose-400 rounded-full animate-bounce [animation-delay:150ms]" />
             <span className="w-2 h-2 bg-rose-400 rounded-full animate-bounce [animation-delay:300ms]" />
@@ -274,12 +371,12 @@ export default function TruthOrDarePage() {
         </div>
       )}
 
-      {/* ── STATE 4: You're the RESPONDER, status='answering' ── */}
+      {/* ── STATE 4 — RESPONDER: answer the question ── */}
       {current?.status === 'answering' && isResponder && (
         <div>
           <div className="mb-4 flex justify-center">
             <span className="inline-block bg-black text-white text-xs font-bold px-4 py-1.5 rounded-full tracking-wider uppercase">
-              {myDisplay}'s Turn to Answer
+              {myDisplay}&apos;s Turn to Answer
             </span>
           </div>
 
@@ -304,7 +401,12 @@ export default function TruthOrDarePage() {
           />
 
           <button
-            onClick={handleRespond}
+            onClick={async () => {
+              if (!responseText.trim()) { toast.error('Write your response first!'); return; }
+              await doAction({ action: 'respond', response: responseText.trim() });
+              setResponseText('');
+              toast.success('Response sent! 🎉');
+            }}
             disabled={submitting || !responseText.trim()}
             className={`mt-4 w-full py-4 rounded-2xl text-white font-bold text-base shadow-lg active:scale-95 transition-all disabled:opacity-50 ${current.type === 'truth' ? 'bg-gradient-to-r from-gray-900 to-gray-700 shadow-gray-300' : 'bg-gradient-to-r from-rose-500 to-pink-500 shadow-rose-200'}`}
           >
@@ -313,7 +415,7 @@ export default function TruthOrDarePage() {
         </div>
       )}
 
-      {/* ── STATE 5: You're the ASKER, status='answering' ── */}
+      {/* ── STATE 4 — ASKER: waiting for the response ── */}
       {current?.status === 'answering' && isAsker && (
         <div className="text-center">
           <div className="mb-4 flex justify-center">
@@ -333,9 +435,7 @@ export default function TruthOrDarePage() {
           <h2 className="text-xl font-bold text-gray-900 mb-2">
             Waiting for {responderDisplay}...
           </h2>
-          <p className="text-gray-500 text-sm">
-            {responderDisplay} is writing their response
-          </p>
+          <p className="text-gray-500 text-sm">{responderDisplay} is writing their response</p>
           <div className="mt-6 flex justify-center gap-1.5">
             <span className="w-2 h-2 bg-rose-400 rounded-full animate-bounce [animation-delay:0ms]" />
             <span className="w-2 h-2 bg-rose-400 rounded-full animate-bounce [animation-delay:150ms]" />
@@ -384,6 +484,9 @@ export default function TruthOrDarePage() {
           Reset Game
         </button>
       </div>
+
+      {/* Mini Chat Bubble */}
+      <MiniChat username={username} />
     </div>
   );
 }

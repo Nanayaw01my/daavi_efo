@@ -3,13 +3,8 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import connectDB from '@/lib/mongodb';
 import TruthDareRound from '@/lib/models/TruthDareRound';
-import { TRUTH_PROMPTS, DARE_PROMPTS } from '@/lib/questions';
 
 export const dynamic = 'force-dynamic';
-
-function randomFrom(arr: string[]) {
-  return arr[Math.floor(Math.random() * arr.length)];
-}
 
 // GET: current round + history
 export async function GET() {
@@ -19,7 +14,7 @@ export async function GET() {
   return NextResponse.json({ current, history });
 }
 
-// POST: start game (creates round 1) OR choose truth/dare OR respond
+// POST: game actions
 export async function POST(req: NextRequest) {
   const session = await getServerSession(authOptions);
   if (!session?.user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -27,30 +22,45 @@ export async function POST(req: NextRequest) {
   const body = await req.json();
   await connectDB();
 
-  // action: 'start' — create first round, caller is asker
+  // action: 'start' — asker challenges their partner
   if (body.action === 'start') {
     const existing = await TruthDareRound.findOne({ status: { $ne: 'done' } });
     if (existing) return NextResponse.json({ error: 'Game already in progress' }, { status: 400 });
     const responder = username === 'efo' ? 'daavi' : 'efo';
-    const round = await TruthDareRound.create({ roundNumber: 1, asker: username, responder, status: 'choosing' });
+    const round = await TruthDareRound.create({
+      roundNumber: 1,
+      asker: username,
+      responder,
+      status: 'pending',
+    });
     return NextResponse.json(round);
   }
 
-  // action: 'choose' — asker picks truth or dare → prompt auto-assigned
-  if (body.action === 'choose') {
-    const round = await TruthDareRound.findOne({ status: 'choosing' });
+  // action: 'pick' — RESPONDER picks truth or dare
+  if (body.action === 'pick') {
+    const round = await TruthDareRound.findOne({ status: 'pending' });
+    if (!round) return NextResponse.json({ error: 'No active challenge' }, { status: 404 });
+    if (round.responder !== username) return NextResponse.json({ error: 'Not your pick to make' }, { status: 403 });
+    round.type = body.type as 'truth' | 'dare';
+    round.status = 'composing';
+    await round.save();
+    return NextResponse.json(round);
+  }
+
+  // action: 'send' — ASKER writes and sends their question
+  if (body.action === 'send') {
+    const round = await TruthDareRound.findOne({ status: 'composing' });
     if (!round) return NextResponse.json({ error: 'No active round' }, { status: 404 });
-    if (round.asker !== username) return NextResponse.json({ error: 'Not your turn to choose' }, { status: 403 });
-    const type = body.type as 'truth' | 'dare';
-    const prompt = (body.customPrompt as string | undefined)?.trim() || (type === 'truth' ? randomFrom(TRUTH_PROMPTS) : randomFrom(DARE_PROMPTS));
-    round.type = type;
+    if (round.asker !== username) return NextResponse.json({ error: 'Not your question to write' }, { status: 403 });
+    const prompt = (body.prompt as string | undefined)?.trim();
+    if (!prompt) return NextResponse.json({ error: 'Question cannot be empty' }, { status: 400 });
     round.prompt = prompt;
     round.status = 'answering';
     await round.save();
     return NextResponse.json(round);
   }
 
-  // action: 'respond' — responder submits answer → round done, new round created with swapped roles
+  // action: 'respond' — RESPONDER submits their answer
   if (body.action === 'respond') {
     const round = await TruthDareRound.findOne({ status: 'answering' });
     if (!round) return NextResponse.json({ error: 'No active round' }, { status: 404 });
@@ -58,12 +68,12 @@ export async function POST(req: NextRequest) {
     round.response = body.response;
     round.status = 'done';
     await round.save();
-    // Create next round with swapped roles
+    // Next round — roles swap
     const nextRound = await TruthDareRound.create({
       roundNumber: round.roundNumber + 1,
       asker: round.responder,
       responder: round.asker,
-      status: 'choosing',
+      status: 'pending',
     });
     return NextResponse.json({ completedRound: round, nextRound });
   }
