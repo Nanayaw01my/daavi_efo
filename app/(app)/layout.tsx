@@ -2,23 +2,21 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useSession, signOut } from 'next-auth/react';
-import { Home, Gamepad2, MessageSquare, Image, Smile, BookOpen, Settings, LogOut, MessageCircleHeart } from 'lucide-react';
-import { useState } from 'react';
+import { Home, Gamepad2, MessageSquare, Image, Smile, LogOut, MessageCircleHeart, MessageCircle } from 'lucide-react';
 
 const NAV = [
   { href: '/dashboard', icon: Home, label: 'Home' },
   { href: '/games', icon: Gamepad2, label: 'Games' },
-  { href: '/notes', icon: MessageSquare, label: 'Notes' },
+  { href: '/chat', icon: MessageCircle, label: 'Chat' },
   { href: '/memories', icon: Image, label: 'Memories' },
   { href: '/mood', icon: Smile, label: 'Mood' },
   { href: '/daily-talk', icon: MessageCircleHeart, label: 'Daily' },
-  { href: '/reflections', icon: BookOpen, label: 'Journal' },
+  { href: '/notes', icon: MessageSquare, label: 'Notes' },
 ];
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const { data: session } = useSession();
-  const [menuOpen, setMenuOpen] = useState(false);
   const role = (session?.user as any)?.role;
 
   return (
