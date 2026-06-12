@@ -4,6 +4,7 @@ import { usePathname } from 'next/navigation';
 import { useSession, signOut } from 'next-auth/react';
 import { Home, Gamepad2, MessageSquare, Image, Smile, LogOut, MessageCircleHeart, MessageCircle } from 'lucide-react';
 import PushSetup from '@/components/PushSetup';
+import CallManager from '@/components/CallManager';
 
 const NAV = [
   { href: '/dashboard', icon: Home, label: 'Home' },
@@ -23,6 +24,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
       <PushSetup />
+      <CallManager />
       {/* Top bar */}
       <header className="fixed top-0 left-0 right-0 z-40 glass border-b border-white/60 px-4 py-3 flex items-center justify-between">
         <div className="flex items-center gap-2">
