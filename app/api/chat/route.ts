@@ -18,11 +18,29 @@ export async function GET() {
 export async function POST(req: NextRequest) {
   const session = await getServerSession(authOptions);
   if (!session?.user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-  const { content } = await req.json();
-  if (!content?.trim()) return NextResponse.json({ error: 'Empty message' }, { status: 400 });
+  const body = await req.json();
+  const { content, type, audioData } = body;
   const username = (session.user as any).username as string;
   const senderDisplay = username === 'efo' ? 'Efo' : username === 'daavi' ? 'Daavi' : 'Admin';
   await connectDB();
+
+  // Handle audio messages
+  if (type === 'audio') {
+    const msg = await ChatMessage.create({
+      sender: username, senderDisplay,
+      content: '🎤 Voice message', type: 'audio', audioData,
+    });
+    const partner = username === 'efo' ? 'daavi' : 'efo';
+    sendPushToUser(partner, {
+      title: `${senderDisplay} 💬`,
+      body: '🎤 Voice message',
+      url: '/chat',
+      tag: 'chat',
+    });
+    return NextResponse.json(msg);
+  }
+
+  if (!content?.trim()) return NextResponse.json({ error: 'Empty message' }, { status: 400 });
   const msg = await ChatMessage.create({ sender: username, senderDisplay, content: content.trim() });
 
   // Notify the partner

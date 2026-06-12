@@ -3,6 +3,7 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import { useSession } from 'next-auth/react';
 import toast from 'react-hot-toast';
 import { Send, MessageCircle, ChevronDown } from 'lucide-react';
+import { playSend } from '@/lib/sounds';
 import { TRUTH_PROMPTS, DARE_PROMPTS } from '@/lib/questions';
 import { format } from 'date-fns';
 
@@ -341,7 +342,7 @@ export default function TruthOrDarePage() {
           </div>
 
           <button
-            onClick={() => doAction({ action: 'send', prompt: questionText })}
+            onClick={() => { playSend(); doAction({ action: 'send', prompt: questionText }); }}
             disabled={submitting || !questionText.trim()}
             className={`w-full py-4 rounded-2xl text-white font-bold text-base shadow-lg active:scale-95 transition-all disabled:opacity-50 ${current.type === 'truth' ? 'bg-gradient-to-r from-gray-900 to-gray-700 shadow-gray-300' : 'bg-gradient-to-r from-rose-500 to-pink-500 shadow-rose-200'}`}
           >
@@ -403,6 +404,7 @@ export default function TruthOrDarePage() {
           <button
             onClick={async () => {
               if (!responseText.trim()) { toast.error('Write your response first!'); return; }
+              playSend();
               await doAction({ action: 'respond', response: responseText.trim() });
               setResponseText('');
               toast.success('Response sent! 🎉');

@@ -1,14 +1,17 @@
 'use client';
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { useSession } from 'next-auth/react';
-import { Send } from 'lucide-react';
+import { Send, Mic } from 'lucide-react';
 import { format, isToday, isYesterday, isSameDay } from 'date-fns';
+import { playSend } from '@/lib/sounds';
 
 interface ChatMsg {
   _id: string;
   sender: string;
   senderDisplay: string;
   content: string;
+  type?: 'text' | 'audio';
+  audioData?: string;
   createdAt: string;
 }
 
@@ -34,8 +37,10 @@ export default function ChatPage() {
   const [messages, setMessages] = useState<ChatMsg[]>([]);
   const [input, setInput] = useState('');
   const [sending, setSending] = useState(false);
+  const [recording, setRecording] = useState(false);
   const bottomRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const recorderRef = useRef<MediaRecorder | null>(null);
 
   const scrollToBottom = useCallback((behavior: ScrollBehavior = 'smooth') => {
     bottomRef.current?.scrollIntoView({ behavior });
@@ -92,6 +97,7 @@ export default function ChatPage() {
         body: JSON.stringify({ content }),
       });
       if (res.ok) {
+        playSend();
         await fetchMessages();
         scrollToBottom('smooth');
       }
@@ -100,6 +106,42 @@ export default function ChatPage() {
     } finally {
       setSending(false);
     }
+  }
+
+  async function startRecording() {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      const mr = new MediaRecorder(stream);
+      const chunks: Blob[] = [];
+      mr.ondataavailable = e => { if (e.data.size > 0) chunks.push(e.data); };
+      mr.onstop = async () => {
+        stream.getTracks().forEach(t => t.stop());
+        const blob = new Blob(chunks, { type: mr.mimeType || 'audio/webm' });
+        const reader = new FileReader();
+        reader.readAsDataURL(blob);
+        reader.onload = async () => {
+          const audioData = reader.result as string;
+          setSending(true);
+          await fetch('/api/chat', {
+            method: 'POST', headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ type: 'audio', audioData }),
+          }).catch(() => null);
+          await fetchMessages();
+          scrollToBottom('smooth');
+          setSending(false);
+        };
+      };
+      mr.start();
+      recorderRef.current = mr;
+      setRecording(true);
+    } catch {
+      // microphone not available — silently ignore
+    }
+  }
+
+  function stopRecording() {
+    recorderRef.current?.stop();
+    setRecording(false);
   }
 
   function handleKeyDown(e: React.KeyboardEvent<HTMLTextAreaElement>) {
@@ -155,7 +197,11 @@ export default function ChatPage() {
                           : 'bg-white text-gray-900 border border-gray-200 rounded-bl-sm shadow-sm'
                       }`}
                     >
-                      {msg.content}
+                      {msg.type === 'audio' && msg.audioData ? (
+                        <audio src={msg.audioData} controls className="h-8 max-w-[200px]" />
+                      ) : (
+                        <span>{msg.content}</span>
+                      )}
                     </div>
                     <span className="text-[10px] text-gray-400 mt-0.5 mx-1">
                       {format(new Date(msg.createdAt), 'h:mm a')}
@@ -182,6 +228,16 @@ export default function ChatPage() {
             className="flex-1 resize-none rounded-2xl border border-gray-200 bg-gray-50 px-4 py-2.5 text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-rose-300 focus:border-rose-300 transition-all overflow-hidden"
             style={{ minHeight: 40, maxHeight: 84 }}
           />
+          <button
+            onClick={recording ? stopRecording : startRecording}
+            disabled={sending}
+            className={`w-9 h-9 rounded-full flex items-center justify-center shrink-0 transition-all ${
+              recording ? 'bg-red-500 animate-pulse' : 'bg-gray-100 hover:bg-gray-200'
+            }`}
+            aria-label={recording ? 'Stop recording' : 'Record voice message'}
+          >
+            <Mic size={16} className={recording ? 'text-white' : 'text-gray-500'} />
+          </button>
           <button
             onClick={sendMessage}
             disabled={!input.trim() || sending}

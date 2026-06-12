@@ -1,6 +1,7 @@
 'use client';
 import { useState } from 'react';
 import { THIS_OR_THAT } from '@/lib/questions';
+import { playPick } from '@/lib/sounds';
 
 export default function ThisOrThatPage() {
   const [answers, setAnswers] = useState<Record<number, 'A' | 'B'>>({});
@@ -11,6 +12,7 @@ export default function ThisOrThatPage() {
   const done = Object.keys(answers).length;
 
   function choose(choice: 'A' | 'B') {
+    playPick();
     setAnswers(a => ({ ...a, [q.id]: choice }));
     if (idx < THIS_OR_THAT.length - 1) setTimeout(() => setIdx(i => i + 1), 300);
   }

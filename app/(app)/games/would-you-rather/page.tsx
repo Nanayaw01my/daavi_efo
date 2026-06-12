@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import toast from 'react-hot-toast';
+import { playPick, playMatch, playNoMatch } from '@/lib/sounds';
 
 export default function WouldYouRatherPage() {
   const { data: session } = useSession();
@@ -22,12 +23,19 @@ export default function WouldYouRatherPage() {
   const partnerName = username === 'efo' ? 'Daavi' : 'Efo';
 
   async function choose(choice: 'A' | 'B') {
+    playPick();
     setSaving(true);
     const res = await fetch('/api/games/would-you-rather', { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ questionId: q.questionId, choice }) });
     const updated = await res.json();
     setQuestions(qs => qs.map(x => x.questionId === updated.questionId ? updated : x));
     setSaving(false);
     toast.success('Choice saved! 💕');
+    // Play match/no-match if partner already answered
+    const partnerChoice = username === 'efo' ? updated.daaviChoice : updated.efoChoice;
+    if (partnerChoice) {
+      if (partnerChoice === choice) playMatch();
+      else playNoMatch();
+    }
   }
 
   const answered = questions.filter(q => q.efoChoice || q.daaviChoice).length;

@@ -447,3 +447,32 @@ export const DATE_NIGHT_IDEAS = [
   { id: 54, category: 'Creative', idea: 'Create a relationship soundtrack — a full playlist from first meeting to now', emoji: '🎶' },
   { id: 55, category: 'Creative', idea: 'DIY wine and canvas night at home — paint the same thing and compare results', emoji: '🎨' },
 ];
+
+// ─── Never Have I Ever ────────────────────────────────────────────────────────
+export const NEVER_HAVE_I_EVER_STATEMENTS = [
+  { id: 1, statement: 'Never have I ever stayed up all night talking to someone I like.' },
+  { id: 2, statement: 'Never have I ever sent a message to the wrong person.' },
+  { id: 3, statement: 'Never have I ever cried at a movie.' },
+  { id: 4, statement: 'Never have I ever had a secret crush on a friend.' },
+  { id: 5, statement: 'Never have I ever lied to get out of plans.' },
+  { id: 6, statement: 'Never have I ever stalked an ex on social media.' },
+  { id: 7, statement: 'Never have I ever fallen asleep on a video call.' },
+  { id: 8, statement: 'Never have I ever said "I love you" first.' },
+  { id: 9, statement: 'Never have I ever forgotten an important anniversary.' },
+  { id: 10, statement: 'Never have I ever pretended to be sick to avoid going out.' },
+  { id: 11, statement: 'Never have I ever danced in public alone.' },
+  { id: 12, statement: 'Never have I ever kept a gift I should have returned.' },
+  { id: 13, statement: "Never have I ever read someone else's private messages." },
+  { id: 14, statement: 'Never have I ever been caught staring at someone.' },
+  { id: 15, statement: 'Never have I ever laughed at the wrong moment.' },
+  { id: 16, statement: 'Never have I ever cried because I missed someone too much.' },
+  { id: 17, statement: 'Never have I ever written a love letter.' },
+  { id: 18, statement: 'Never have I ever been so nervous I forgot what I was saying.' },
+  { id: 19, statement: 'Never have I ever planned something romantic that went wrong.' },
+  { id: 20, statement: 'Never have I ever fallen asleep while on the phone with someone.' },
+  { id: 21, statement: 'Never have I ever ugly-cried in front of my partner.' },
+  { id: 22, statement: 'Never have I ever sent a "wrong chat" message to my partner.' },
+  { id: 23, statement: "Never have I ever eaten the last of my partner's food." },
+  { id: 24, statement: 'Never have I ever kept a score in an argument.' },
+  { id: 25, statement: 'Never have I ever re-read our early chats just to smile.' },
+];

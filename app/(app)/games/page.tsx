@@ -74,6 +74,15 @@ const GAMES = [
     color: 'from-purple-400 to-violet-600',
     shadow: 'shadow-purple-200',
   },
+  {
+    href: '/games/never-have-i-ever',
+    icon: '🙈',
+    title: 'Never Have I Ever',
+    desc: 'Tap to confess — see what the other one admits!',
+    badge: '25 Statements',
+    color: 'from-fuchsia-400 to-purple-600',
+    shadow: 'shadow-fuchsia-200',
+  },
 ];
 
 export default function GamesPage() {
@@ -82,7 +91,7 @@ export default function GamesPage() {
       <div className="mb-6">
         <div className="inline-block bg-rose-100 text-rose-600 text-xs font-bold px-3 py-1 rounded-full mb-2 tracking-wider uppercase">Play Together</div>
         <h1 className="font-playfair text-3xl font-bold text-gray-900">Couple Games 🎮</h1>
-        <p className="text-gray-500 text-sm mt-1">8 real games designed to bring you closer every time you play.</p>
+        <p className="text-gray-500 text-sm mt-1">9 real games designed to bring you closer every time you play.</p>
       </div>
 
       <div className="space-y-3">
