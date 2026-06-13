@@ -3,6 +3,24 @@ import Link from 'next/link';
 
 const GAMES = [
   {
+    href: '/love-jar',
+    icon: '🫙',
+    title: 'Love Jar',
+    desc: 'Leave secret love notes in a jar. Your partner opens them one by one.',
+    badge: 'Love Notes',
+    color: 'from-rose-400 to-red-500',
+    shadow: 'shadow-rose-200',
+  },
+  {
+    href: '/goals',
+    icon: '💫',
+    title: 'Couple Goals',
+    desc: 'Your shared bucket list — tick off adventures and dreams together.',
+    badge: 'Bucket List',
+    color: 'from-pink-400 to-fuchsia-500',
+    shadow: 'shadow-pink-200',
+  },
+  {
     href: '/games/pick-a-number',
     icon: '🔢',
     title: 'Pick A Number',
@@ -91,7 +109,7 @@ export default function GamesPage() {
       <div className="mb-6">
         <div className="inline-block bg-rose-100 text-rose-600 text-xs font-bold px-3 py-1 rounded-full mb-2 tracking-wider uppercase">Play Together</div>
         <h1 className="font-playfair text-3xl font-bold text-gray-900">Couple Games 🎮</h1>
-        <p className="text-gray-500 text-sm mt-1">9 real games designed to bring you closer every time you play.</p>
+        <p className="text-gray-500 text-sm mt-1">11 activities designed to bring you closer every time you play.</p>
       </div>
 
       <div className="space-y-3">
