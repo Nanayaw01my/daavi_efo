@@ -6,6 +6,7 @@ const ChatMessageSchema = new Schema({
   content: { type: String, default: '' },
   type: { type: String, enum: ['text', 'audio'], default: 'text' },
   audioData: { type: String },
+  edited: { type: Boolean, default: false },
   createdAt: { type: Date, default: Date.now },
 });
 

@@ -38,7 +38,7 @@ export default function CallManager() {
   const remoteVid = useRef<HTMLVideoElement>(null);
   const callIdRef = useRef<string | null>(null);
   const csRef = useRef<CS>('idle');
-  const durRef = useRef<NodeJS.Timeout | null>(null);
+  const durRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const hasRemoteRef = useRef(false);
 
   const updCs = (s: CS) => { csRef.current = s; setCs(s); };
@@ -106,7 +106,9 @@ export default function CallManager() {
 
   function makePc() {
     const pc = new RTCPeerConnection({ iceServers: ICE_SERVERS });
-    pc.ontrack = e => { if (remoteVid.current) remoteVid.current.srcObject = e.streams[0]; };
+    pc.ontrack = e => {
+      if (remoteVid.current) remoteVid.current.srcObject = e.streams[0];
+    };
     pc.onconnectionstatechange = () => {
       if (pc.connectionState === 'connected') {
         updCs('active');
@@ -159,7 +161,7 @@ export default function CallManager() {
         const r = await fetch('/api/call').catch(() => null);
         if (r?.ok) { const d: CallDoc = await r.json(); offer = d?.offer ?? null; }
       }
-      if (!offer) throw new Error('No offer');
+      if (!offer) throw new Error('No offer received');
 
       await pc.setRemoteDescription(JSON.parse(offer));
       const answer = await pc.createAnswer();
@@ -182,23 +184,32 @@ export default function CallManager() {
 
   function toggleMute() { localRef.current?.getAudioTracks().forEach(t => { t.enabled = !t.enabled; }); setMuted(m => !m); }
   function toggleVid() { localRef.current?.getVideoTracks().forEach(t => { t.enabled = !t.enabled; }); setVidOff(v => !v); }
-  function fmt(s: number) { return `${String(Math.floor(s/60)).padStart(2,'0')}:${String(s%60).padStart(2,'0')}`; }
+  function fmt(s: number) { return `${String(Math.floor(s / 60)).padStart(2, '0')}:${String(s % 60).padStart(2, '0')}`; }
 
   const isVid = callDoc?.type === 'video';
-  const partnerName = callDoc ? (callDoc.callerUsername !== username ? callDoc.callerDisplay : (username === 'efo' ? 'Daavi' : 'Efo')) : 'Partner';
+  const partnerName = callDoc
+    ? (callDoc.callerUsername !== username ? callDoc.callerDisplay : (username === 'efo' ? 'Daavi' : 'Efo'))
+    : 'Partner';
 
   return (
     <>
-      <div className={`fixed inset-0 z-50 bg-gray-900 flex flex-col ${cs === 'idle' ? 'hidden' : 'flex'}`}>
-        {isVid && cs === 'active' && (
-          <video ref={remoteVid} autoPlay playsInline className="absolute inset-0 w-full h-full object-cover z-[1]" />
-        )}
+      <div className={`fixed inset-0 z-50 bg-gray-900 flex flex-col ${cs === 'idle' ? 'hidden' : ''}`}>
+        {/* Remote video — always in DOM so ontrack sets srcObject before cs reaches 'active'.
+            opacity-0 hides visually but audio still plays through the element. */}
+        <video
+          ref={remoteVid}
+          autoPlay
+          playsInline
+          className={`absolute inset-0 w-full h-full object-cover z-[1] transition-opacity duration-300 ${isVid && cs === 'active' ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
+        />
 
         <div className="relative z-[2] flex flex-col h-full">
           {cs === 'ringing' && (
             <div className="flex-1 flex flex-col items-center justify-center px-6 text-center">
               <div className="text-7xl mb-4 animate-bounce">{isVid ? '📹' : '📞'}</div>
-              <p className="text-gray-400 text-sm uppercase font-bold tracking-widest mb-2">Incoming {isVid ? 'Video' : 'Audio'} Call</p>
+              <p className="text-gray-400 text-sm uppercase font-bold tracking-widest mb-2">
+                Incoming {isVid ? 'Video' : 'Audio'} Call
+              </p>
               <h2 className="text-white text-3xl font-bold mb-12">{callDoc?.callerDisplay}</h2>
               <div className="flex gap-16">
                 <div className="flex flex-col items-center gap-2">
@@ -227,15 +238,21 @@ export default function CallManager() {
                 </p>
                 {(cs === 'initiating' || cs === 'connecting') && (
                   <div className="flex gap-1.5 mt-4">
-                    {[0,200,400].map(d => <span key={d} className="w-2 h-2 bg-white/60 rounded-full animate-bounce" style={{ animationDelay: `${d}ms` }} />)}
+                    {[0, 200, 400].map(d => (
+                      <span key={d} className="w-2 h-2 bg-white/60 rounded-full animate-bounce" style={{ animationDelay: `${d}ms` }} />
+                    ))}
                   </div>
                 )}
               </div>
 
-              {isVid && (
-                <video ref={localVid} autoPlay playsInline muted
-                  className="absolute top-4 right-4 w-28 h-40 rounded-2xl object-cover border-2 border-white/30 shadow-lg bg-black" />
-              )}
+              {/* Local video — always in DOM for video calls */}
+              <video
+                ref={localVid}
+                autoPlay
+                playsInline
+                muted
+                className={`absolute top-4 right-4 w-28 h-40 rounded-2xl object-cover border-2 border-white/30 shadow-lg bg-black ${isVid ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
+              />
 
               <div className="pb-16 px-6">
                 <div className="flex justify-center items-center gap-8">
@@ -279,8 +296,10 @@ export default function CallManager() {
               </button>
             </div>
           )}
-          <button onClick={() => setPicker(v => !v)}
-            className="w-12 h-12 rounded-full bg-pink-500 text-white flex items-center justify-center shadow-xl active:scale-90 transition-all">
+          <button
+            onClick={() => setPicker(v => !v)}
+            className="w-12 h-12 rounded-full bg-pink-500 text-white flex items-center justify-center shadow-xl active:scale-90 transition-all"
+          >
             <Phone size={20} />
           </button>
         </div>
