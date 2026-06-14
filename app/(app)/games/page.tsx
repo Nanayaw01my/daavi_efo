@@ -101,6 +101,15 @@ const GAMES = [
     color: 'from-fuchsia-400 to-purple-600',
     shadow: 'shadow-fuchsia-200',
   },
+  {
+    href: '/games/drawing',
+    icon: '🎨',
+    title: 'Draw Together',
+    desc: 'Same prompt, 90 seconds, two artists. AI judges who drew it best!',
+    badge: 'AI Judged',
+    color: 'from-orange-400 to-rose-500',
+    shadow: 'shadow-orange-200',
+  },
 ];
 
 export default function GamesPage() {
@@ -109,7 +118,7 @@ export default function GamesPage() {
       <div className="mb-6">
         <div className="inline-block bg-rose-100 text-rose-600 text-xs font-bold px-3 py-1 rounded-full mb-2 tracking-wider uppercase">Play Together</div>
         <h1 className="font-playfair text-3xl font-bold text-gray-900">Couple Games 🎮</h1>
-        <p className="text-gray-500 text-sm mt-1">11 activities designed to bring you closer every time you play.</p>
+        <p className="text-gray-500 text-sm mt-1">12 activities designed to bring you closer every time you play.</p>
       </div>
 
       <div className="space-y-3">

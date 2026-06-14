@@ -1,0 +1,36 @@
+export const DRAWING_PROMPTS = [
+  'Draw your dream house together',
+  'Draw a cat riding a skateboard',
+  'Draw a sunset over the ocean',
+  'Draw a robot falling in love',
+  'Draw two birds sitting on a wire',
+  'Draw a hot air balloon with hearts',
+  'Draw a pizza with your favorite toppings',
+  'Draw a couple dancing under the stars',
+  'Draw a cozy fireplace scene',
+  'Draw a castle in the clouds',
+  'Draw a cupcake with sprinkles',
+  'Draw the sun wearing sunglasses',
+  'Draw a bear having a picnic',
+  'Draw a mermaid underwater',
+  'Draw a flower bouquet',
+  'Draw a city skyline at night',
+  'Draw a dog wearing a cape',
+  'Draw a rainbow after the rain',
+  'Draw a hot cup of coffee with a heart',
+  'Draw a tree with hearts for leaves',
+  'Draw a snowman in love',
+  'Draw a boat sailing on a calm lake',
+  'Draw a dragon eating ice cream',
+  'Draw a galaxy with stars and planets',
+  'Draw a garden full of butterflies',
+  'Draw a teddy bear holding balloons',
+  'Draw a lighthouse by the sea',
+  'Draw a birthday cake with candles',
+  'Draw a penguin on a beach',
+  'Draw a unicorn in a meadow',
+];
+
+export function randomPrompt(): string {
+  return DRAWING_PROMPTS[Math.floor(Math.random() * DRAWING_PROMPTS.length)];
+}
